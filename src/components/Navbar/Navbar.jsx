@@ -27,18 +27,23 @@ export default function Navbar() {
               className=" px-10 py-1 min-w-xl border border-gray-400 focus:outline-none focus:border-purple-600 bg-gray-100 rounded-full"
             />
           </div>
-          <div className=" left-side space-x-2 hidden md:flex items-center ">
+          <div className=" left-side gap-5 hidden md:flex items-center ">
+             <div className="icons space-x-2 ">
+              <button className="cursor-pointer text-xl hover:text-purple-500 transition-colors duration-200  before:absolute  before:h-2.5 before:w-2.5 before:bg-purple-500 relative before:rounded-full before:top-0 before:right-0 before:translate-x-1 before:-translate-y-1 ">
+                <FontAwesomeIcon icon={faBell} />
+              </button>
+              <button  className="cursor-pointer text-xl hover:text-purple-500 before:absolute  before:h-2.5 before:w-2.5 before:bg-purple-500 relative before:rounded-full before:top-0 before:right-0 before:translate-x-1 before:-translate-y-1 ">
+
+              <FontAwesomeIcon
+                icon={faEnvelope}
+               
+              />
+              </button>
+            </div>
             <button className="bg-purple-800 cursor-pointer hover:bg-purple-500 transition-colors duration-200 px-5 py-2 rounded-2xl text-white font-semibold">
               Get Started
             </button>
-            <FontAwesomeIcon
-              icon={faBell}
-              className="cursor-pointer text-xl hover:text-purple-700"
-            />
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              className="cursor-pointer text-xl hover:text-purple-700"
-            />
+           
           </div>
           <div className="md:hidden">
             <FontAwesomeIcon icon={faBars} className="text-2xl  " />
