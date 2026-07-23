@@ -14,7 +14,7 @@ export default function Navbar() {
               <Link to="/">SocialHub</Link>
             </h1>
           </div>
-          <div className="hidden lg:block search-field relative ">
+          <div className="center-side hidden lg:block search-field relative ">
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
               className="text-purple-600 absolute top-1/2 left-3 -translate-y-1/2"
