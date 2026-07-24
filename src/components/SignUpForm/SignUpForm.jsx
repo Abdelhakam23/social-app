@@ -87,10 +87,12 @@ export default function SignUpForm() {
         className=" bg-white p-8 w-full md:max-w-112.5 border border-gray-300 rounded-xl shadow space-y-4"
         onSubmit={formik.handleSubmit}
       >
-        <header className="space-y-2">
-          <h2 className="font-bold text-black text-2xl">Create your account</h2>
+        <header className="space-y-2 text-center">
+          <h2 className="font-bold text-black text-2xl">Create Your Account</h2>
           <p className="text-gray-500">
-            Fill in the details below to get started.
+            Already have an account ?  
+            <Link to={'/signin'} className="text-blue-500">
+             sign in</Link>
           </p>
         </header>
         <div className="form-controls space-y-3">
@@ -285,7 +287,7 @@ export default function SignUpForm() {
               className="hover:bg-gray-200 cursor-pointer transition-colors duration-200 space-x-1 px-4 py-2 border border-gray-300 rounded-xl w-full"
             >
               <FontAwesomeIcon icon={faGithub} />
-              <span>GitHup</span>
+              <span>GitHub</span>
             </button>
           </div>
         </div>
