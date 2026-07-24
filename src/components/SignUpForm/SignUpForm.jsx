@@ -70,8 +70,7 @@ export default function SignUpForm() {
       }, 5000);
     }
     } catch (error) {
-      console.log("Error BLock");
-      console.log(error.response.data.errors);
+ 
       if (error.response.data.errors === 'user already exists.') {
         formik.setFieldError('email',"Email is already Exist")
       }
