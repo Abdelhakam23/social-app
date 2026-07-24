@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import FormField from "../ui/formField/FormField";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import axios from "axios";
 
 export default function SignUpForm() {
   const passwordRegex = RegExp(
@@ -46,26 +47,36 @@ export default function SignUpForm() {
       .oneOf(["male", "female"], "please select a valid gender"),
   });
 
-  async function handleSubmit(values) {
-    const response = await fetch(
-      "https://route-posts.routemisr.com/users/signup",
-      {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
 
-    const data = await response.json();
+
+
+  async function handleSubmit(values) {
+
+    try {
+       const options = {
+      url: "https://route-posts.routemisr.com/users/signup",
+      method: 'POST',
+      data:values
+    }
+
+    const { data } = await axios.request(options);
+
     if (data.success) {
       toast.success("Account Created Successfully");
 
       setTimeout(() => {
         navigate("/signin");
+        
       }, 5000);
     }
+    } catch (error) {
+      console.log("Error BLock");
+      console.log(error);
+      
+      
+    }
+    
+   
   }
 
   const formik = useFormik({
