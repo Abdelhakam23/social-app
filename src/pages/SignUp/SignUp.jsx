@@ -1,5 +1,5 @@
 import React from 'react'
-import SignUpHero from '../../components/SignUpHero/SignUpHero'
+import SignUpHero from '../../components/AuthHero/AuthHero'
 import SignUpForm from '../../components/SignUpForm/SignUpForm'
 
 export default function SignUp() {

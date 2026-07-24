@@ -2,7 +2,7 @@ import { faCheck, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-export default function SignUpHero() {
+export default function AuthHero() {
   const features = [
     {
       icon: faCheck,
