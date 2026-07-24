@@ -15,6 +15,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import FormField from "../ui/formField/FormField";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 export default function SignUpForm() {
   const passwordRegex = RegExp(
@@ -25,7 +27,7 @@ export default function SignUpForm() {
 
   const signUpSchema = Yup.object({
     name: Yup.string()
-    .required("name is required")
+      .required("name is required")
       .min(3, "Too Short !")
       .max(50, "Too Long !"),
     email: Yup.string().required("email is required").email("Invalid Email"),
@@ -90,170 +92,108 @@ export default function SignUpForm() {
         <header className="space-y-2 text-center">
           <h2 className="font-bold text-black text-2xl">Create Your Account</h2>
           <p className="text-gray-500">
-            Already have an account ?  
-            <Link to={'/signin'} className="text-blue-500">
-             sign in</Link>
+            Already have an account ?
+            <Link to={"/signin"} className="text-blue-500">
+              sign in
+            </Link>
           </p>
         </header>
         <div className="form-controls space-y-3">
-          <div>
-            <label className="font-medium mb-2" htmlFor="name">
-              Full Name
-            </label>
-            <div className="relative">
-              <input
-                id="name"
-                type="text"
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="focus:outline-none bg-gray-100 border border-gray-300 rounded-lg px-4 py-1 pl-8 w-full"
-                placeholder="Enter Full Name "
-              />
-              <FontAwesomeIcon
-                icon={faUser}
-                className="absolute top-1/2 left-2 -translate-y-1/2 text-sm text-gray-400"
-              />
-            </div>
-            {formik.errors.name && formik.touched.name ? (
-              <p className="text-red-700">*{formik.errors.name}</p>
-            ) : (
-              ""
-            )}
-          </div>
-          <div>
-            <label className="font-medium mb-2" htmlFor="email">
-              Email
-            </label>
-            <div className="relative">
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="focus:outline-none bg-gray-100 border border-gray-300 rounded-lg px-4 py-1 pl-8 w-full"
-                placeholder="name@example.com "
-              />
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                className="absolute top-1/2 left-2 -translate-y-1/2  text-gray-400"
-              />
-            </div>
-            {formik.errors.email && formik.touched.email ? (
-              <p className="text-red-700">*{formik.errors.email}</p>
-            ) : (
-              ""
-            )}
-          </div>
-          <div>
-            <label className="font-medium mb-2" htmlFor="password">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                id="password"
-                type="password"
-                name="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="focus:outline-none bg-gray-100 border border-gray-300 rounded-lg px-4 py-1 pl-8 w-full"
-                placeholder="Create a strong password "
-              />
-              <FontAwesomeIcon
-                icon={faLock}
-                className="absolute top-1/2 left-2 -translate-y-1/2 text-sm text-gray-400"
-              />
-            </div>
-            {formik.errors.password && formik.touched.password ? (
-              <p className="text-red-700">*{formik.errors.password}</p>
-            ) : (
-              ""
-            )}
-          </div>
-          <div>
-            <label className="font-medium mb-2" htmlFor="rePassword">
-              Confirm Password
-            </label>
-            <div className="relative">
-              <input
-                id="rePassword"
-                type="password"
-                name="rePassword"
-                value={formik.values.rePassword}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="focus:outline-none bg-gray-100 border border-gray-300 rounded-lg px-4 py-1 pl-8 w-full"
-                placeholder="Repeat your password "
-              />
-              <FontAwesomeIcon
-                icon={faLock}
-                className="absolute top-1/2 left-2 -translate-y-1/2 text-sm text-gray-400"
-              />
-            </div>
-            {formik.errors.rePassword && formik.touched.rePassword ? (
-              <p className="text-red-700">*{formik.errors.rePassword}</p>
-            ) : (
-              ""
-            )}
-          </div>
+          <FormField
+            elementType={"input"}
+            id={"name"}
+            name={"name"}
+            inputType={"text"}
+            labelText={"Full Name"}
+            icon={faUser}
+            placeholder={"Enter Your Full Name"}
+            error={formik.errors.name}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            touched={formik.touched.name}
+            value={formik.values.name}
+          />
+          <FormField
+            elementType={"input"}
+            id={"email"}
+            name={"email"}
+            inputType={"email"}
+            labelText={"Email"}
+            icon={faEnvelope}
+            placeholder={"name@example.com"}
+            error={formik.errors.email}
+            touched={formik.touched.email}
+            value={formik.values.email}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          <FormField
+            elementType={"input"}
+            id={"password"}
+            name={"password"}
+            inputType={"password"}
+            labelText={"Password"}
+            icon={faLock}
+            placeholder={"Create a strong password"}
+            error={formik.errors.password}
+            touched={formik.touched.password}
+            value={formik.values.password}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          <FormField
+            elementType={"input"}
+            id={"rePassword"}
+            name={"rePassword"}
+            inputType={"password"}
+            labelText={"Confirm Password"}
+            icon={faLock}
+            placeholder={"Repeat Your Password"}
+            error={formik.errors.rePassword}
+            touched={formik.touched.rePassword}
+            value={formik.values.rePassword}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
           <div className="flex items-center gap-3 *:grow">
-            <div>
-              <label className="font-medium mb-2" htmlFor="dateOfBirth">
-                Date Of Birth{" "}
-              </label>
-              <div className="relative">
-                <input
-                  name="dateOfBirth"
-                  value={formik.values.dateOfBirth}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  id="dateOfBirth"
-                  type="Date"
-                  className="focus:outline-none bg-gray-100 border border-gray-300 rounded-lg px-4 py-1 pl-8 w-full"
-                />
-                <FontAwesomeIcon
-                  icon={faCalendar}
-                  className="absolute top-1/2 left-2 -translate-y-1/2 text-sm text-gray-400"
-                />
-              </div>
-              {formik.errors.dateOfBirth && formik.touched.dateOfBirth ? (
-                <p className="text-red-700">*{formik.errors.dateOfBirth}</p>
-              ) : (
-                ""
-              )}
-            </div>
-            <div>
-              <label className="font-medium mb-2" htmlFor="gender">
-                Gender
-              </label>
-              <div className="relative">
-                <select
-                  name="gender"
-                  value={formik.values.gender}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  id="gender"
-                  className="focus:outline-none bg-gray-100 border border-gray-300 rounded-lg px-4 py-1 pl-8 w-full"
-                >
-                  <option value="">Select you gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-                <FontAwesomeIcon
-                  icon={faVenusMars}
-                  className="absolute top-1/2 left-2 -translate-y-1/2 text-sm text-gray-400"
-                />
-              </div>
-              {formik.errors.gender && formik.touched.gender ? (
-                <p className="text-red-700">*{formik.errors.gender}</p>
-              ) : (
-                ""
-              )}
-            </div>
+            <FormField
+              elementType={"input"}
+              id={"dateOfBirth"}
+              name={"dateOfBirth"}
+              inputType={"date"}
+              labelText={"Date of birth"}
+              icon={faCalendar}
+              error={formik.errors.dateOfBirth}
+              touched={formik.touched.dateOfBirth}
+              value={formik.values.dateOfBirth}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            <FormField
+              elementType={"select"}
+              id={"gender"}
+              name={"gender"}
+              labelText={"Gender"}
+              icon={faVenusMars}
+              error={formik.errors.gender}
+              touched={formik.touched.gender}
+              value={formik.values.gender}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              options={[
+                {
+                  text: "Select a gander",
+                },
+                {
+                  text: "Male",
+                  value: "male",
+                },
+                {
+                  text: "Female",
+                  value: "female",
+                },
+              ]}
+            />
           </div>
 
           <button
