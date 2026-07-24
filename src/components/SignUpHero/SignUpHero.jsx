@@ -39,7 +39,7 @@ export default function SignUpHero() {
       <div className="features ">
         <ul className="space-y-3 flex flex-col items-start mx-0 md:mx-auto w-fit lg:mx-0 lg:block">
           {
-              features.map((feature) => <li className="space-x-2 flex items-center">
+              features.map((feature,index) => <li key={index} className="space-x-2 flex items-center">
                 <span className="w-8 h-8 bg-[#e2e2f4] rounded-full flex items-center justify-center text-[#4F45E5] text-sm">
               <FontAwesomeIcon icon={feature.icon} />
               </span>
