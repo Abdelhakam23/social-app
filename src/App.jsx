@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import { Bounce, ToastContainer } from "react-toastify";
 import AuthProvider from "./Context/Auth.context";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
+import AuthRoute from "./components/AuthRoute/AuthRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,11 +22,19 @@ function App() {
     },
     {
       path: "/signin",
-      element: <SignIn />,
+      element: (
+        <AuthRoute>
+          <SignIn />
+        </AuthRoute>
+      ),
     },
     {
       path: "/signup",
-      element: <SignUp />,
+      element: (
+        <AuthRoute>
+          <SignUp />
+        </AuthRoute>
+      ),
     },
     {
       path: "/profile/:id",
