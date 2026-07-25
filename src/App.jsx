@@ -6,6 +6,7 @@ import Profile from "./pages/Profile/Profile";
 import PostDetails from "./pages/PostDetails/PostDetails";
 import NotFound from "./pages/NotFound/NotFound";
 import { Bounce, ToastContainer } from "react-toastify";
+import AuthProvider from "./Context/Auth.context";
 
 function App() {
   const router = createBrowserRouter([
@@ -37,21 +38,23 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router}/>
+      <AuthProvider>
+        <RouterProvider router={router} />
 
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+        />
+      </AuthProvider>
     </>
   );
 }

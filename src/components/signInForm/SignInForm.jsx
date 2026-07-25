@@ -11,15 +11,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import FormField from "../ui/formField/FormField";
 import { text } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
+import { AuthContext } from "../../Context/Auth.context";
 
 export default function SignInForm() {
+  const { token, setToken } = useContext(AuthContext);
+
   const passwordRegex = RegExp(
     "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",
   );
@@ -27,7 +30,6 @@ export default function SignInForm() {
   const navigate = useNavigate();
 
   const signInSchema = Yup.object({
-   
     email: Yup.string().required("email is required").email("Invalid Email"),
     password: Yup.string()
       .required("password is required")
@@ -35,50 +37,39 @@ export default function SignInForm() {
         passwordRegex,
         "Invalid Password  Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character ",
       ),
-   
   });
 
-
-
-
   async function handleSubmit(values) {
-
     try {
-       const options = {
-      url: "https://route-posts.routemisr.com/users/signin",
-      method: 'POST',
-      data:values
-    }
+      const options = {
+        url: "https://route-posts.routemisr.com/users/signin",
+        method: "POST",
+        data: values,
+      };
 
-    const { data } = await axios.request(options);
+      const { data } = await axios.request(options);
 
-    if (data.success) {
-      toast.success("Welcome Back");
+      if (data.success) {
+        setToken(data.data.token);
+        toast.success("Welcome Back");
 
-      setTimeout(() => {
-        navigate("/");
-        
-      }, 5000);
-    }
-    } catch (error) {
-        console.log(error.response);
-        
-      if (error.response.data.errors === 'incorrect email or password') {
-          toast.error('incorrect email or password');
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
       }
-      
-      
+    } catch (error) {
+      console.log(error.response);
+
+      if (error.response.data.errors === "incorrect email or password") {
+        toast.error("incorrect email or password");
+      }
     }
-    
-   
   }
 
   const formik = useFormik({
     initialValues: {
-      
       email: "",
       password: "",
-      
     },
     validationSchema: signInSchema,
     onSubmit: handleSubmit,
@@ -93,7 +84,7 @@ export default function SignInForm() {
         onSubmit={formik.handleSubmit}
       >
         <header className="space-y-2 text-center">
-          <h2 className="font-bold text-black text-2xl">Create Your Account</h2>
+          <h2 className="font-bold text-black text-3xl">Login</h2>
           <p className="text-gray-500">
             Don't have an account ?
             <Link to={"/signup"} className="text-blue-500">
@@ -101,8 +92,7 @@ export default function SignInForm() {
             </Link>
           </p>
         </header>
-        <div className="form-controls space-y-3">
-         
+        <div className="form-controls space-y-4">
           <FormField
             elementType={"input"}
             id={"email"}
@@ -131,12 +121,11 @@ export default function SignInForm() {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           />
-          
 
           <button
             type="submit"
             disabled={!(formik.dirty && formik.isValid) || formik.isSubmitting}
-            className="bg-[#4F46E5] px-4 py-2 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-500 w-full rounded-lg text-white font-bold"
+            className="bg-[#4F46E5] px-4 py-2 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-500 w-full rounded-lg text-white font-bold mt-2"
           >
             {formik.isSubmitting ? (
               <span>
