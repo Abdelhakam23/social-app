@@ -50,7 +50,8 @@ export default function SignInForm() {
       const { data } = await axios.request(options);
 
       if (data.success) {
-        setToken(data.data.token);
+          setToken(data.data.token);
+          localStorage.setItem('token', data.data.token);
         toast.success("Welcome Back");
 
         setTimeout(() => {

@@ -7,12 +7,17 @@ import PostDetails from "./pages/PostDetails/PostDetails";
 import NotFound from "./pages/NotFound/NotFound";
 import { Bounce, ToastContainer } from "react-toastify";
 import AuthProvider from "./Context/Auth.context";
+import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
+      element: (
+        <ProtectedRoutes>
+          <Home />
+        </ProtectedRoutes>
+      ),
     },
     {
       path: "/signin",
@@ -24,11 +29,21 @@ function App() {
     },
     {
       path: "/profile/:id",
-      element: <Profile />,
+      element: (
+        <ProtectedRoutes>
+          {" "}
+          <Profile />
+        </ProtectedRoutes>
+      ),
     },
     {
       path: "/post/:id",
-      element: <PostDetails />,
+      element: (
+        <ProtectedRoutes>
+          {" "}
+          <PostDetails />
+        </ProtectedRoutes>
+      ),
     },
     {
       path: "*",
