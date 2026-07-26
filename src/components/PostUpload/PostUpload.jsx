@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import FormField from "../ui/formField/FormField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../../Context/Auth.context";
+import { useFormik } from "formik";
 
 export default function PostUpload() {
+  const { token } = useContext(AuthContext);
+
+  function handleSubmit(values) {
+    console.log(values);
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      body: "",
+      image: null,
+    },
+
+    // validationSchema
+
+    onSubmit: handleSubmit,
+  });
+
   return (
     <section className="max-w-2xl mx-auto pt-8 ">
       <div className="container">
-        <div className="post-upload bg-white p-5 border border-gray-400/30 rounded-lg">
+        <form
+          className="post-upload bg-white p-5 border border-gray-400/30 rounded-lg"
+          onSubmit={formik.handleSubmit}
+        >
           <header className="flex items-center gap-2">
             <div className="rounded-full size-10 overflow-hidden border-2 border-blue-500/40 shrink-0 flex ">
               <img
@@ -20,9 +42,16 @@ export default function PostUpload() {
               elementType={"textarea"}
               placeholder={"What's in your mind"}
               className={`resize-none`}
+              value={formik.values.body}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              touched={formik.touched.body}
+              error={formik.errors.body}
+              name={"body"}
+              id={"body"}
             />
           </header>
-          <div className="mt-4 border-t pt-2 border-gray-500/40 flex  items-center justify-between">
+          <div className="mt-4 border-t pt-2 border-gray-500/40 flex items-center justify-between">
             <div>
               <label
                 htmlFor="postUpload"
@@ -31,7 +60,20 @@ export default function PostUpload() {
                 <FontAwesomeIcon icon={faImage} />
                 <span>Photo</span>
               </label>
-              <input type="file" className="hidden " id="postUpload" />
+
+              <div className="hidden">
+                <FormField
+                  inputType={"file"}
+                  elementType={"input"}
+                  id={"postUpload"}
+                  name={"image"}
+                  onBlur={formik.handleBlur}
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    formik.setFieldValue("image", file);
+                  }}
+                />
+              </div>
             </div>
 
             <button
@@ -43,7 +85,7 @@ export default function PostUpload() {
               <FontAwesomeIcon icon={faPaperPlane} />
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );
