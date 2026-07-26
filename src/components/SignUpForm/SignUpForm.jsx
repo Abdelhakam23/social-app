@@ -10,90 +10,14 @@ import {
   faVenusMars,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFormik } from "formik";
 import React from "react";
-import { Link, useNavigate } from "react-router";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import { Link } from "react-router";
 import FormField from "../ui/formField/FormField";
 import { text } from "@fortawesome/fontawesome-svg-core";
-import axios from "axios";
+import { useSignUp } from "../../hooks/signUpHook";
 
 export default function SignUpForm() {
-  const passwordRegex = RegExp(
-    "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",
-  );
-
-  const navigate = useNavigate();
-
-  const signUpSchema = Yup.object({
-    name: Yup.string()
-      .required("name is required")
-      .min(3, "Too Short !")
-      .max(50, "Too Long !"),
-    email: Yup.string().required("email is required").email("Invalid Email"),
-    password: Yup.string()
-      .required("password is required")
-      .matches(
-        passwordRegex,
-        "Invalid Password  Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character ",
-      ),
-    rePassword: Yup.string()
-      .required("please confirm password")
-      .oneOf([Yup.ref("password")], "passwords must matchs "),
-    dateOfBirth: Yup.string().required("please enter the date of birth"),
-    gender: Yup.string()
-      .required("please select a gender ")
-      .oneOf(["male", "female"], "please select a valid gender"),
-  });
-
-
-
-
-  async function handleSubmit(values) {
-
-    try {
-       const options = {
-      url: "https://route-posts.routemisr.com/users/signup",
-      method: 'POST',
-      data:values
-    }
-
-    const { data } = await axios.request(options);
-
-    if (data.success) {
-      toast.success("Account Created Successfully");
-
-      setTimeout(() => {
-        navigate("/signin");
-        
-      }, 5000);
-    }
-    } catch (error) {
- 
-      if (error.response.data.errors === 'user already exists.') {
-        formik.setFieldError('email',"Email is already Exist")
-      }
-      
-      
-    }
-    
-   
-  }
-
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      rePassword: "",
-      dateOfBirth: "",
-      gender: "",
-    },
-    validationSchema: signUpSchema,
-    onSubmit: handleSubmit,
-  });
-
+  const {formik} =  useSignUp()
   // console.log(formik);
 
   return (
