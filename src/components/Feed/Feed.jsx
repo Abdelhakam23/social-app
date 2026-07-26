@@ -18,7 +18,7 @@ export default function Feed() {
       };
       const { data } = await axios.request(options);
 
-      console.log(data.data.posts);
+      //   console.log(data.data.posts);
       setPosts(data.data.posts);
     } catch (error) {}
   }
@@ -34,11 +34,12 @@ export default function Feed() {
           <h1 className="text-2xl font-semibold text-gray-500 mb-4">
             Latest Posts
           </h1>
-          {/* <PostCard/> */}
 
           <div className="space-y-8">
             {posts
-              ? posts.map((post) => <PostCard key={post.id} postInfo={post} />)
+              ? posts.map((post) => (
+                  <PostCard key={post.id} postInfo={post} limit={1} />
+                ))
               : [...Array(5)].map((_, index) => (
                   <PostCardSkeleton key={index} />
                 ))}
