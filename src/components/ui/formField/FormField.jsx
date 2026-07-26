@@ -53,12 +53,26 @@ export default function FormField({
             </select>
           </>
         );
+      case "textarea":
+        return (
+          <>
+            <textarea
+              id={id}
+              name={name}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              className={`focus:outline-none bg-gray-100 border border-gray-300 rounded-lg pl-2 py-2  w-full ${className} `}
+              placeholder={placeholder}
+            ></textarea>
+          </>
+        );
     }
   };
 
   return (
     <>
-      <div>
+      <div className="w-full">
         <label className="font-medium mb-2" htmlFor={id}>
           {labelText}
         </label>

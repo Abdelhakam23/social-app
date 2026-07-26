@@ -10,7 +10,7 @@ export default function Feed() {
   async function getAllPosts() {
     try {
       const options = {
-        url: "https://route-posts.routemisr.com/posts?limit=50",
+        url: "https://route-posts.routemisr.com/posts?limit=50&page=1",
         method: "GET",
         headers: {
           token,

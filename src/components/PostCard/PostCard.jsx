@@ -2,6 +2,7 @@ import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import {
   faEllipsis,
   faShare,
+  faShareNodes,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -70,7 +71,7 @@ export default function PostCard({ postInfo, limit }) {
             </div>
           </div>
           <div className="emojie space-x-1 hover:bg-gray-200 px-2 cursor-pointer rounded-xl transition-colors duration-300">
-            <FontAwesomeIcon icon={faShare} />
+            <FontAwesomeIcon icon={faShareNodes} />
             <span> {postInfo.sharesCount} share</span>
           </div>
         </div>
