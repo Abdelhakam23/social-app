@@ -1,55 +1,67 @@
 import { faBell, faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router";
 
 export default function Navbar() {
   return (
-    <>
-      <nav className="bg-white shadow ">
-        <div className="container mx-auto py-3 px-4 flex  justify-between items-center max-w-7xl">
-          <div className="right-side flex items-center gap-5">
-            <h1 className="font-bold text-xl text-purple-800">
-              <Link to="/">SocialHub</Link>
-            </h1>
-          </div>
-          <div className="center-side hidden lg:block search-field relative ">
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              className="text-purple-600 absolute top-1/2 left-3 -translate-y-1/2"
-            />
-            <input
-              type="search"
-              name=""
-              placeholder="Search people, posts, topics..."
-              id=""
-              className=" px-10 py-1 min-w-xl border border-gray-400 focus:outline-none focus:border-purple-600 bg-gray-100 rounded-full"
-            />
-          </div>
-          <div className=" left-side gap-5 hidden md:flex items-center ">
-             <div className="icons space-x-2 ">
-              <button className="cursor-pointer text-xl hover:text-purple-500 transition-colors duration-200  before:absolute  before:h-2.5 before:w-2.5 before:bg-purple-500 relative before:rounded-full before:top-0 before:right-0 before:translate-x-1 before:-translate-y-1 ">
-                <FontAwesomeIcon icon={faBell} />
-              </button>
-              <button  className="cursor-pointer text-xl hover:text-purple-500 before:absolute  before:h-2.5 before:w-2.5 before:bg-purple-500 relative before:rounded-full before:top-0 before:right-0 before:translate-x-1 before:-translate-y-1 ">
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/60">
+      <div className="container mx-auto max-w-7xl px-4 py-2.5 flex items-center justify-between gap-4">
+        {/* Logo */}
+        <Link to="/" className="shrink-0">
+          <h1 className="text-xl font-bold bg-linear-to-r from-purple-800 to-purple-500 bg-clip-text text-transparent tracking-tight">
+            SocialHub
+          </h1>
+        </Link>
 
-              <FontAwesomeIcon
-                icon={faEnvelope}
-               
-              />
-              </button>
-            </div>
-            <button className="bg-purple-800 cursor-pointer hover:bg-purple-500 transition-colors duration-200 px-5 py-2 rounded-2xl text-white font-semibold">
-              Get Started
-            </button>
-           
-          </div>
-          <div className="md:hidden">
-            <FontAwesomeIcon icon={faBars} className="text-2xl  " />
-          </div>
+        {/* Search Bar */}
+        <div className="hidden md:block flex-1 max-w-md relative">
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className="absolute top-1/2 left-3.5 -translate-y-1/2 text-gray-400 text-sm pointer-events-none"
+          />
+          <input
+            type="search"
+            placeholder="Search..."
+            className="w-full pl-10 pr-4 py-2 text-sm bg-gray-100 border border-transparent rounded-full focus:outline-none focus:bg-white focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-200 placeholder:text-gray-400"
+          />
         </div>
-      </nav>
-    </>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-2">
+          {/* Mobile Search Icon */}
+          <button className="md:hidden size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm" />
+          </button>
+
+          {/* Notification */}
+          <button className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+            <FontAwesomeIcon icon={faBell} />
+            <span className="absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white"></span>
+          </button>
+
+          {/* Messages */}
+          <button className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+            <FontAwesomeIcon icon={faEnvelope} />
+            <span className="absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white"></span>
+          </button>
+
+          {/* Divider */}
+          <div className="hidden sm:block w-px h-6 bg-gray-200 mx-1"></div>
+
+          {/* User Avatar */}
+          <button className="shrink-0 cursor-pointer group">
+            <div className="size-8 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-purple-400 transition-colors duration-200">
+              <img
+                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg"
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 }

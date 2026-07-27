@@ -92,7 +92,7 @@ export default function PostUpload({ getAllPosts }) {
   }
 
   return (
-    <section className="max-w-2xl mx-auto pt-8 ">
+    <section className="pt-2">
       <div className="container">
         <form
           className="post-upload bg-white p-5 border border-gray-400/30 rounded-lg"
@@ -131,6 +131,7 @@ export default function PostUpload({ getAllPosts }) {
                 type="button"
                 onClick={() => {
                   setPreviewImage(null);
+                  formik.setFieldValue('image', null);
                 }}
                 className="text-white p-1 rounded-full text-sm absolute bg-red-600 top-4 right-3 cursor-pointer hover:bg-red-400/40 transition-colors duration-200"
               >
