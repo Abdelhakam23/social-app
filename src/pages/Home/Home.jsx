@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
 import Feed from '../../components/Feed/Feed'
 import PostUpload from '../../components/PostUpload/PostUpload'
 import LeftSidebar from '../../components/LeftSidebar/LeftSidebar'
 import RightSidebar from '../../components/RightSidebar/RightSidebar'
 import { usePosts } from '../../hooks/PostsHook'
+import { AuthContext } from '../../Context/Auth.context'
+import axios from 'axios'
 
 export default function Home() {
 
- const{posts,getAllPosts} =  usePosts()
+   
+    const { posts, getAllPosts } = usePosts()
+    
+  
   return (
     <div className='min-h-screen'>
       <Navbar />
@@ -20,7 +25,7 @@ export default function Home() {
           </div>
 
           {/* Main Feed */}
-          <main className='min-w-0 max-w-2xl mx-auto lg:max-w-none'>
+          <main>
             <PostUpload getAllPosts={getAllPosts} />
             <Feed posts={posts} />
           </main>

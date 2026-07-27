@@ -1,4 +1,5 @@
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 import {
   faEllipsis,
   faShare,
@@ -17,6 +18,9 @@ export default function PostCard({ postInfo, limit }) {
   const [comments, setComments] = useState(null);
 
   const { token } = useContext(AuthContext);
+
+  const [isLiked, setIsLiked] = useState(false); 
+  const [likesCount, setLikesCount] = useState(postInfo.likesCount);
 
   async function getPostComments() {
     try {
@@ -40,6 +44,28 @@ export default function PostCard({ postInfo, limit }) {
   useEffect(() => {
     getPostComments();
   }, []);
+
+  async function handleLike(postId) {
+    try {
+      const options = {
+        url: `https://route-posts.routemisr.com/posts/${postId}/like`,
+        method: "PUT",
+        headers: {
+          token,
+        },
+       
+      };
+
+      const { data } = await axios.request(options);
+      if (data.success) {
+        setLikesCount(data.data.likesCount);
+      }
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <>
       <div className="post-card space-y-3 bg-white p-5 rounded-xl border border-gray-300 shadow-sm">
@@ -61,19 +87,26 @@ export default function PostCard({ postInfo, limit }) {
         />
         <div className="flex items-center justify-between *:text-gray-500 *:font-semibold border-y border-gray-500 px-2 py-3 -mx-5">
           <div className="reactions flex items-center gap-2 *:hover:bg-gray-200 *:px-2 *:cursor-pointer *:rounded-xl *:transition-colors *:duration-300 ">
-            <div className="emojie space-x-1">
-              <FontAwesomeIcon icon={faHeart} />
-              <span>{postInfo.likesCount}</span>
-            </div>
-            <div className="emojie space-x-1">
+            <button
+              onClick={() => {
+                handleLike(postInfo.id)
+                setIsLiked(!isLiked)
+                
+              }}
+              className={`emojie space-x-1 ${isLiked? "text-red-500": ""}`}
+            >
+              <FontAwesomeIcon icon={isLiked ? faHeartSolid : faHeart} />
+              <span>{likesCount}</span>
+            </button>
+            <button className="emojie space-x-1">
               <FontAwesomeIcon icon={faComment} />
               <span>{postInfo.commentsCount}</span>
-            </div>
+            </button>
           </div>
-          <div className="emojie space-x-1 hover:bg-gray-200 px-2 cursor-pointer rounded-xl transition-colors duration-300">
+          <button className="emojie space-x-1 hover:bg-gray-200 px-2 cursor-pointer rounded-xl transition-colors duration-300">
             <FontAwesomeIcon icon={faShareNodes} />
             <span> {postInfo.sharesCount} share</span>
-          </div>
+          </button>
         </div>
 
         <div className="comments mt-5 space-y-4">

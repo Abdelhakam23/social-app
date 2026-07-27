@@ -8,7 +8,7 @@ export default function Feed({posts}) {
  
   return (
     <>
-      <section className="all-posts my-5">
+      <section className="all-posts max-w-2xl mx-auto lg:max-w-none my-5">
         <div className="container">
           <h1 className="text-2xl font-semibold text-gray-500 mb-4">
             Latest Posts

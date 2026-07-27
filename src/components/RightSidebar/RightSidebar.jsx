@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowTrendUp,
@@ -7,38 +7,51 @@ import {
   faHashtag,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../../Context/Auth.context";
+import { usePosts } from "../../hooks/PostsHook";
+import axios from "axios";
+import SuggestedFriendsSkelton from "../SuggestedFriendsSkelton/SuggestedFriendsSkelton";
+
 
 export default function RightSidebar() {
+
+  const { token } = useContext(AuthContext);
+  const [suggestedUsers, setSuggestedUsers] = useState(null);
+  
+    async function getSuggestedFriends() {
+      
+      try {
+        const options = {
+          url: 'https://route-posts.routemisr.com/users/suggestions?limit=5',
+          method: "GET",
+          headers: {
+            token
+          }
+        }
+  
+        const { data } = await axios.request(options);
+        console.log(data.data.suggestions);
+        
+        if (data.success) {
+          setSuggestedUsers(data.data.suggestions)
+        }
+        
+      } catch (error) {
+        console.log(error);
+        setSuggestedUsers([]);
+      }
+    }
+  
+      useEffect(() => {
+        getSuggestedFriends()
+      },[])
+ 
   const trendingTopics = [
     { tag: "ReactJS", posts: "2.4K posts", trend: "+12%" },
     { tag: "WebDev", posts: "1.8K posts", trend: "+8%" },
     { tag: "JavaScript", posts: "3.1K posts", trend: "+5%" },
     { tag: "TailwindCSS", posts: "956 posts", trend: "+22%" },
     { tag: "AI", posts: "5.2K posts", trend: "+34%" },
-  ];
-
-  const suggestedFriends = [
-    {
-      name: "Sarah Ahmed",
-      handle: "@sarah_dev",
-      avatar:
-        "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg",
-      mutualFriends: 12,
-    },
-    {
-      name: "Omar Hassan",
-      handle: "@omar_h",
-      avatar:
-        "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg",
-      mutualFriends: 8,
-    },
-    {
-      name: "Nour Ali",
-      handle: "@nour_ali",
-      avatar:
-        "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg",
-      mutualFriends: 5,
-    },
   ];
 
   const events = [
@@ -57,7 +70,7 @@ export default function RightSidebar() {
   ];
 
   return (
-    <aside className="right-sidebar sticky top-24 h-fit space-y-5">
+    <aside className="right-sidebar  top-24 h-fit space-y-5">
       {/* Trending Topics */}
       <div className="bg-white rounded-xl border border-gray-300 shadow-sm overflow-hidden">
         <div className="px-4 pt-4 pb-2 flex items-center justify-between">
@@ -114,31 +127,43 @@ export default function RightSidebar() {
           </button>
         </div>
         <div className="p-3 space-y-2">
-          {suggestedFriends.map((friend, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
-            >
-              <div className="size-10 rounded-full overflow-hidden border-2 border-purple-200 shrink-0">
-                <img
-                  src={friend.avatar}
-                  alt={friend.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm text-gray-800 truncate">
-                  {friend.name}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {friend.mutualFriends} mutual friends
-                </p>
-              </div>
-              <button className="shrink-0 px-3 py-1.5 text-xs font-semibold text-purple-600 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-200 cursor-pointer">
-                Follow
-              </button>
-            </div>
-          ))}
+          {suggestedUsers ? (
+            suggestedUsers.length > 0 ? (
+              suggestedUsers.map((friend, index) => (
+                <div
+                  key={friend._id || index}
+                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                >
+                  <div className="size-10 rounded-full overflow-hidden border-2 border-purple-200 shrink-0">
+                    <img
+                      src={friend.photo}
+                      alt={friend.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm text-gray-800 truncate">
+                      {friend.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {friend.mutualFollowersCount} mutual friends
+                    </p>
+                  </div>
+                  <button className="shrink-0 px-3 py-1.5 text-xs font-semibold text-purple-600 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-200 cursor-pointer">
+                    Follow
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-xs text-gray-500 py-3 font-medium">
+                No suggested friends found
+              </p>
+            )
+          ) : (
+            [...Array(3)].map((_,index) => (
+              <SuggestedFriendsSkelton key={index}/>
+            ))
+          )}
         </div>
       </div>
 

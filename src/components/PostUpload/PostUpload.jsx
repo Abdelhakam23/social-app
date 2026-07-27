@@ -92,7 +92,7 @@ export default function PostUpload({ getAllPosts }) {
   }
 
   return (
-    <section className="pt-2">
+    <section className="pt-2 max-w-2xl mx-auto lg:max-w-none">
       <div className="container">
         <form
           className="post-upload bg-white p-5 border border-gray-400/30 rounded-lg"
