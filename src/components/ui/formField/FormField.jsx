@@ -83,7 +83,7 @@ export default function FormField({
             className="absolute top-1/2 left-2 -translate-y-1/2 text-sm text-gray-400"
           />
         </div>
-        {error && touched ? <p className="text-red-700">*{error}</p> : ""}
+        {error && touched ? <p className="text-red-700 text-sm mt-2">*{error}</p> : ""}
       </div>
     </>
   );

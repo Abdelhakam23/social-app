@@ -32,10 +32,10 @@ export default function PostDetails() {
 
   useEffect(() => {
     getPostDetails();
-  }, []);
+  }, [id]);
 
   return (
-    <div className="max-w-2xl py-5 mx-auto">
+    <div className="max-w-2xl py-5 mx-auto px-4">
       {postDetails ? (
         <PostCard limit={10} postInfo={postDetails} />
       ) : (

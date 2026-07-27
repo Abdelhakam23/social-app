@@ -7,8 +7,11 @@ export default function Home() {
   return (
     <div>
       <Navbar />
+      <div className='mx-4'>
+
       <PostUpload/>
       <Feed/>
+      </div>
     </div>
   )
 }
