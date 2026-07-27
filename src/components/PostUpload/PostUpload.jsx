@@ -1,64 +1,74 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import FormField from "../ui/formField/FormField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClose,
+  faImage,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../Context/Auth.context";
 import { useFormik } from "formik";
-import * as yup from 'yup'
+import * as yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function PostUpload({getAllPosts}) {
+export default function PostUpload({ getAllPosts }) {
   const { token } = useContext(AuthContext);
 
+  const [previewImage, setPreviewImage] = useState(null);
 
-
- async function handleSubmit(values) {
-   try {
-      
-     const formData = new FormData
-     formData.append('body', values.body);
-     if(values.image)
-     formData.append('image',values.image);
+  async function handleSubmit(values) {
+    try {
+      const formData = new FormData();
+      formData.append("body", values.body);
+      if (values.image) formData.append("image", values.image);
       const options = {
-        url: 'https://route-posts.routemisr.com/posts',
+        url: "https://route-posts.routemisr.com/posts",
         method: "POST",
         headers: {
-          token
+          token,
         },
-        data:formData
-        
-      }
+        data: formData,
+      };
 
-      const { data } = await axios.request(options)
-     if (data.success) {
-       toast.success('Post Created Successfully');
-       formik.resetForm()
-       getAllPosts()
+      const { data } = await axios.request(options);
+      if (data.success) {
+        toast.success("Post Created Successfully");
+        formik.resetForm();
+        getAllPosts();
+        setPreviewImage(null);
       }
-      
     } catch (error) {
       console.log(error);
-      
-      
     }
   }
 
   const validationSchema = yup.object({
-    body: yup.string().required("Caption is needed").min(3, 'Caption must be more than 3 characters').max(500, 'Caption must be less than 500 characters'),
-    image: yup.mixed().nullable().test('fileSize', 'Fils is too large (max size 5mb)', (file) => {
-      if (!file) return true;
+    body: yup
+      .string()
+      .required("Caption is needed")
+      .min(3, "Caption must be more than 3 characters")
+      .max(500, "Caption must be less than 500 characters"),
+    image: yup
+      .mixed()
+      .nullable()
+      .test("fileSize", "Fils is too large (max size 5mb)", (file) => {
+        if (!file) return true;
 
-      return file.size <= 5 * 1024 * 1024;
-    }).test('fileType', 'FileType Must be Image', (file) => {
-      if (!file) return true;
-      
-      const validTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
-      return validTypes.includes(file.type);
-    })
-  })
+        return file.size <= 5 * 1024 * 1024;
+      })
+      .test("fileType", "FileType Must be Image", (file) => {
+        if (!file) return true;
 
-
+        const validTypes = [
+          "image/png",
+          "image/jpg",
+          "image/jpeg",
+          "image/gif",
+        ];
+        return validTypes.includes(file.type);
+      }),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -66,10 +76,20 @@ export default function PostUpload({getAllPosts}) {
       image: null,
     },
 
-    validationSchema:validationSchema,
+    validationSchema: validationSchema,
 
     onSubmit: handleSubmit,
   });
+
+  async function handelImageChange(e) {
+    const file = e.target.files[0];
+    await formik.setFieldValue("image", file, true);
+    formik.setFieldTouched("image", true);
+
+    const url = URL.createObjectURL(file);
+    setPreviewImage(url);
+    // formik.validateField("image");
+  }
 
   return (
     <section className="max-w-2xl mx-auto pt-8 ">
@@ -99,6 +119,25 @@ export default function PostUpload({getAllPosts}) {
               id={"body"}
             />
           </header>
+          {previewImage && !formik.errors.image && (
+            <div className="my-2 relative">
+              <img
+                src={previewImage}
+                className="w-full aspect-video object-center rounded-xl"
+                alt=""
+              />
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPreviewImage(null);
+                }}
+                className="text-white p-1 rounded-full text-sm absolute bg-red-600 top-4 right-3 cursor-pointer hover:bg-red-400/40 transition-colors duration-200"
+              >
+                <FontAwesomeIcon icon={faClose} />
+              </button>
+            </div>
+          )}
           <div className="mt-4 border-t pt-2 border-gray-500/40 flex items-center justify-between">
             <div>
               <label
@@ -116,12 +155,7 @@ export default function PostUpload({getAllPosts}) {
                   id={"postUpload"}
                   name={"image"}
                   onBlur={formik.handleBlur}
-                  onChange={async (e) => {
-                    const file = e.target.files[0];
-                   await formik.setFieldValue("image", file,true);
-                    formik.setFieldTouched('image', true)
-                    // formik.validateField("image");
-                  }}
+                  onChange={handelImageChange}
                 />
               </div>
             </div>
@@ -134,13 +168,10 @@ export default function PostUpload({getAllPosts}) {
 
               <FontAwesomeIcon icon={faPaperPlane} />
             </button>
-
           </div>
-            {
-              formik.errors.image && formik.touched.image && (
-                <p className="text-red-700 text-sm mt-2"> *{ formik.errors.image}</p>
-              )
-            }
+          {formik.errors.image && formik.touched.image && (
+            <p className="text-red-700 text-sm mt-2"> *{formik.errors.image}</p>
+          )}
         </form>
       </div>
     </section>
