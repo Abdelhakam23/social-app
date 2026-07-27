@@ -4,8 +4,7 @@ import PostCardSkeleton from "../PostCardSkelton/PostCardSkelton";
 import axios from "axios";
 import { AuthContext } from "../../Context/Auth.context";
 
-export default function Feed({posts}) {
- 
+export default function Feed({ posts }) {
   return (
     <>
       <section className="all-posts max-w-2xl mx-auto lg:max-w-none my-5">

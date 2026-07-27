@@ -8,7 +8,7 @@ import axios from "axios";
 
 
 export function useSignIn() {
-      const { token, setToken } = useContext(AuthContext);
+      const { token, setToken,setUser } = useContext(AuthContext);
 
   const passwordRegex = RegExp(
     "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$",
@@ -35,10 +35,15 @@ export function useSignIn() {
       };
 
       const { data } = await axios.request(options);
+      console.log(data);
+      
 
       if (data.success) {
           setToken(data.data.token);
-          localStorage.setItem('token', data.data.token);
+        localStorage.setItem('token', data.data.token);
+        setUser(data.data.user);
+        localStorage.setItem('user', JSON.stringify(data.data.user));
+        
         toast.success("Welcome Back");
 
         setTimeout(() => {

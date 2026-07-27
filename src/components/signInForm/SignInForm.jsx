@@ -10,15 +10,9 @@ import {
   faVenusMars,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFormik } from "formik";
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import React from "react";
+import { Link } from "react-router";
 import FormField from "../ui/formField/FormField";
-import { text } from "@fortawesome/fontawesome-svg-core";
-import axios from "axios";
-import { AuthContext } from "../../Context/Auth.context";
 import { useSignIn } from "../../hooks/SignInHook";
 
 export default function SignInForm() {

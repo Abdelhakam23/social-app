@@ -12,40 +12,35 @@ import { usePosts } from "../../hooks/PostsHook";
 import axios from "axios";
 import SuggestedFriendsSkelton from "../SuggestedFriendsSkelton/SuggestedFriendsSkelton";
 
-
 export default function RightSidebar() {
-
   const { token } = useContext(AuthContext);
   const [suggestedUsers, setSuggestedUsers] = useState(null);
-  
-    async function getSuggestedFriends() {
-      
-      try {
-        const options = {
-          url: 'https://route-posts.routemisr.com/users/suggestions?limit=5',
-          method: "GET",
-          headers: {
-            token
-          }
-        }
-  
-        const { data } = await axios.request(options);
-        console.log(data.data.suggestions);
-        
-        if (data.success) {
-          setSuggestedUsers(data.data.suggestions)
-        }
-        
-      } catch (error) {
-        console.log(error);
-        setSuggestedUsers([]);
+
+  async function getSuggestedFriends() {
+    try {
+      const options = {
+        url: "https://route-posts.routemisr.com/users/suggestions?limit=5",
+        method: "GET",
+        headers: {
+          token,
+        },
+      };
+
+      const { data } = await axios.request(options);
+
+      if (data.success) {
+        setSuggestedUsers(data.data.suggestions);
       }
+    } catch (error) {
+      console.log(error);
+      setSuggestedUsers([]);
     }
-  
-      useEffect(() => {
-        getSuggestedFriends()
-      },[])
- 
+  }
+
+  useEffect(() => {
+    getSuggestedFriends();
+  }, []);
+
   const trendingTopics = [
     { tag: "ReactJS", posts: "2.4K posts", trend: "+12%" },
     { tag: "WebDev", posts: "1.8K posts", trend: "+8%" },
@@ -160,8 +155,8 @@ export default function RightSidebar() {
               </p>
             )
           ) : (
-            [...Array(3)].map((_,index) => (
-              <SuggestedFriendsSkelton key={index}/>
+            [...Array(3)].map((_, index) => (
+              <SuggestedFriendsSkelton key={index} />
             ))
           )}
         </div>
@@ -218,11 +213,21 @@ export default function RightSidebar() {
       {/* Footer Links */}
       <div className="px-2 pb-4">
         <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400">
-          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">About</span>
-          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">Help</span>
-          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">Privacy</span>
-          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">Terms</span>
-          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">Careers</span>
+          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">
+            About
+          </span>
+          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">
+            Help
+          </span>
+          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">
+            Privacy
+          </span>
+          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">
+            Terms
+          </span>
+          <span className="hover:text-purple-500 cursor-pointer transition-colors duration-200">
+            Careers
+          </span>
         </div>
         <p className="text-xs text-gray-400 mt-2">
           © 2026 SocialHub. All rights reserved.

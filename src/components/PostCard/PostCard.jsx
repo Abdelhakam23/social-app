@@ -17,10 +17,19 @@ import { AuthContext } from "../../Context/Auth.context";
 export default function PostCard({ postInfo, limit }) {
   const [comments, setComments] = useState(null);
 
-  const { token } = useContext(AuthContext);
+  const { token,user } = useContext(AuthContext);
 
-  const [isLiked, setIsLiked] = useState(false); 
+
+
+ 
   const [likesCount, setLikesCount] = useState(postInfo.likesCount);
+  const [isLiked, setIsLiked] = useState(() => {
+  if (postInfo.likes && user) {
+    return postInfo.likes?.some((likeUser) => likeUser._id === user._id);
+  }
+  
+  return postInfo.isLiked || false;
+});
 
   async function getPostComments() {
     try {
@@ -43,27 +52,30 @@ export default function PostCard({ postInfo, limit }) {
 
   useEffect(() => {
     getPostComments();
+
   }, []);
 
   async function handleLike(postId) {
     try {
+      const newLikedState = !isLiked;
+
+      setIsLiked(newLikedState);
       const options = {
         url: `https://route-posts.routemisr.com/posts/${postId}/like`,
         method: "PUT",
         headers: {
           token,
         },
-       
       };
 
       const { data } = await axios.request(options);
       if (data.success) {
         setLikesCount(data.data.likesCount);
+       
       }
-      
     } catch (error) {
       console.log(error);
-      
+      setIsLiked(isLiked);
     }
   }
   return (
@@ -89,11 +101,9 @@ export default function PostCard({ postInfo, limit }) {
           <div className="reactions flex items-center gap-2 *:hover:bg-gray-200 *:px-2 *:cursor-pointer *:rounded-xl *:transition-colors *:duration-300 ">
             <button
               onClick={() => {
-                handleLike(postInfo.id)
-                setIsLiked(!isLiked)
-                
+                handleLike(postInfo.id);
               }}
-              className={`emojie space-x-1 ${isLiked? "text-red-500": ""}`}
+              className={`emojie space-x-1 ${isLiked ? "text-red-500" : ""}`}
             >
               <FontAwesomeIcon icon={isLiked ? faHeartSolid : faHeart} />
               <span>{likesCount}</span>
