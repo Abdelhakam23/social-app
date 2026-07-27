@@ -4,29 +4,8 @@ import PostCardSkeleton from "../PostCardSkelton/PostCardSkelton";
 import axios from "axios";
 import { AuthContext } from "../../Context/Auth.context";
 
-export default function Feed() {
-  const [posts, setPosts] = useState(null);
-  const { token } = useContext(AuthContext);
-  async function getAllPosts() {
-    try {
-      const options = {
-        url: "https://route-posts.routemisr.com/posts?limit=50&page=1",
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
-      const { data } = await axios.request(options);
-
-      //   console.log(data.data.posts);
-      setPosts(data.data.posts);
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    getAllPosts();
-  }, []);
-
+export default function Feed({posts}) {
+ 
   return (
     <>
       <section className="all-posts  mx-auto max-w-2xl my-5">

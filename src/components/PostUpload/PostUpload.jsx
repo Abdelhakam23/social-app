@@ -8,7 +8,7 @@ import * as yup from 'yup'
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function PostUpload() {
+export default function PostUpload({getAllPosts}) {
   const { token } = useContext(AuthContext);
 
 
@@ -34,6 +34,7 @@ export default function PostUpload() {
      if (data.success) {
        toast.success('Post Created Successfully');
        formik.resetForm()
+       getAllPosts()
       }
       
     } catch (error) {
