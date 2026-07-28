@@ -13,7 +13,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function PostUpload({ getAllPosts }) {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
+  const userObj = JSON.parse(user);
 
   const [previewImage, setPreviewImage] = useState(null);
 
@@ -101,7 +102,7 @@ export default function PostUpload({ getAllPosts }) {
           <header className="flex items-center gap-2">
             <div className="rounded-full size-10 overflow-hidden border-2 border-blue-500/40 shrink-0 flex ">
               <img
-                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg"
+                src={userObj.photo}
                 alt="author-img"
                 className="w-full h-full object-cover"
               />

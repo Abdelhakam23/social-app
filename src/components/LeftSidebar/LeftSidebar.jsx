@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -11,11 +11,16 @@ import {
   faFire,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
+import { AuthContext } from "../../Context/Auth.context";
 
 export default function LeftSidebar() {
+
+  const { user } = useContext(AuthContext)
+  const userObj = JSON.parse(user);
+  
   const navItems = [
     { icon: faHouse, label: "Home", to: "/", active: true },
-    { icon: faUser, label: "My Profile", to: "/profile/1" },
+    { icon: faUser, label: "My Profile", to: `/profile/${userObj._id}` },
     { icon: faBookmark, label: "Saved Posts", to: "/" },
     { icon: faUsers, label: "Groups", to: "/" },
     { icon: faCalendarDays, label: "Events", to: "/" },
@@ -31,7 +36,7 @@ export default function LeftSidebar() {
           <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
             <div className="size-14 rounded-full border-3 border-white overflow-hidden shadow-lg">
               <img
-                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg"
+                src={userObj.photo}
                 alt="User avatar"
                 className="w-full h-full object-cover"
               />
@@ -39,8 +44,8 @@ export default function LeftSidebar() {
           </div>
         </div>
         <div className="pt-8 pb-4 px-4 text-center">
-          <h3 className="font-bold text-gray-800">Mahmoud Abdelhakam</h3>
-          <p className="text-sm text-gray-500 mt-0.5">@mahmoud_dev</p>
+          <h3 className="font-bold text-gray-800">{userObj.name}</h3>
+          <p className="text-sm text-gray-500 mt-0.5">@{userObj.username}</p>
           <div className="flex justify-center gap-6 mt-3 pt-3 border-t border-gray-200">
             <div className="text-center">
               <p className="font-bold text-purple-700 text-sm">248</p>
