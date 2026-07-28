@@ -11,41 +11,7 @@ import {
   faComment as faCommentRegular,
 } from "@fortawesome/free-regular-svg-icons";
 
-export default function ProfileBookmarksTab({bookmarks}) {
-  const mockBookmarks = [
-    {
-      id: "b1",
-      user: {
-        name: "Sarah Ahmed",
-        username: "sarah_dev",
-        photo:
-          "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg",
-      },
-      createdAt: "3 days ago",
-      body: "Top 10 React performance optimization techniques every frontend developer should master in 2026. ⚡️ #ReactJS #WebDev",
-      image:
-        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1000&q=80",
-      likesCount: 340,
-      commentsCount: 42,
-      savedDate: "Saved yesterday",
-    },
-    {
-      id: "b2",
-      user: {
-        name: "Omar Hassan",
-        username: "omar_h",
-        photo:
-          "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg",
-      },
-      createdAt: "1 week ago",
-      body: "Mastering CSS Grid and Tailwind layout patterns for complex dashboard web apps.",
-      image: null,
-      likesCount: 156,
-      commentsCount: 19,
-      savedDate: "Saved 4 days ago",
-    },
-  ];
-
+export default function ProfileBookmarksTab({ bookmarks }) {
   return (
     <div className="space-y-6">
       {/* Header Info */}
@@ -54,7 +20,9 @@ export default function ProfileBookmarksTab({bookmarks}) {
           <FontAwesomeIcon icon={faBookmark} />
           <span>Saved Posts ({bookmarks.length})</span>
         </div>
-        <span className="text-xs text-gray-500 font-medium">Only visible to you</span>
+        <span className="text-xs text-gray-500 font-medium">
+          Only visible to you
+        </span>
       </div>
 
       {/* Bookmarked Items */}
@@ -72,7 +40,10 @@ export default function ProfileBookmarksTab({bookmarks}) {
                 <FontAwesomeIcon icon={faBookmark} />
                 {post.savedDate}
               </span>
-              <button className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer" title="Remove bookmark">
+              <button
+                className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                title="Remove bookmark"
+              >
                 <FontAwesomeIcon icon={faTrashCan} />
               </button>
             </div>
@@ -131,7 +102,8 @@ export default function ProfileBookmarksTab({bookmarks}) {
               </button>
             </div>
           </div>
-        )))}
+        ))
+      )}
     </div>
   );
 }

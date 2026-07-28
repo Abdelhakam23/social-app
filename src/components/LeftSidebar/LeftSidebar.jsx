@@ -16,7 +16,7 @@ import { AuthContext } from "../../Context/Auth.context";
 export default function LeftSidebar() {
 
   const { user } = useContext(AuthContext)
-  const userObj = JSON.parse(user);
+  const userObj = user;
   
   const navItems = [
     { icon: faHouse, label: "Home", to: "/", active: true },

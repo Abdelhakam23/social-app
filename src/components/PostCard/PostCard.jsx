@@ -1,8 +1,9 @@
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
+import { faComment as faCommentRegular } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 import {
   faEllipsis,
-  faShare,
   faShareNodes,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
@@ -10,31 +11,48 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import CommentCard from "../CommentCard/CommentCard";
 import Post from "../Post/Post";
-import { array } from "yup";
 import axios from "axios";
 import { AuthContext } from "../../Context/Auth.context";
 
-export default function PostCard({ postInfo, limit }) {
+export default function PostCard({ postInfo, limit = 1 }) {
   const [comments, setComments] = useState(null);
+  const { token, user } = useContext(AuthContext);
 
-  const { token,user } = useContext(AuthContext);
+  const postId = postInfo?.id || postInfo?._id;
 
+  const [likesCount, setLikesCount] = useState(postInfo?.likesCount || 0);
+  const [isLiked, setIsLiked] = useState(false);
 
-
- 
-  const [likesCount, setLikesCount] = useState(postInfo.likesCount);
-  const [isLiked, setIsLiked] = useState(() => {
-  if (postInfo.likes && user) {
-    return postInfo.likes?.some((likeUser) => likeUser._id === user._id);
+  let currentUser = user;
+  if (typeof user === "string") {
+    try {
+      currentUser = JSON.parse(user);
+    } catch {
+      currentUser = null;
+    }
   }
-  
-  return postInfo.isLiked || false;
-});
+
+  useEffect(() => {
+    setLikesCount(postInfo?.likesCount || 0);
+
+    if (postInfo?.likes && currentUser?._id) {
+      const hasLiked = postInfo.likes.some((like) => {
+        if (typeof like === "object" && like !== null) {
+          return like._id === currentUser._id;
+        }
+        return like === currentUser._id;
+      });
+      setIsLiked(hasLiked);
+    } else {
+      setIsLiked(false);
+    }
+  }, [currentUser, postInfo]);
 
   async function getPostComments() {
+    if (!postId) return;
     try {
       const option = {
-        url: `https://route-posts.routemisr.com/posts/${postInfo.id}/comments?limit=${limit}`,
+        url: `https://route-posts.routemisr.com/posts/${postId}/comments?limit=${limit}`,
         method: "GET",
         headers: {
           token,
@@ -52,14 +70,20 @@ export default function PostCard({ postInfo, limit }) {
 
   useEffect(() => {
     getPostComments();
+  }, [postId]);
 
-  }, []);
+  async function handleLike() {
+    if (!postId) return;
 
-  async function handleLike(postId) {
+    const previousLiked = isLiked;
+    const previousCount = likesCount;
+
+    // Optimistic UI update
+    const newLikedState = !previousLiked;
+    setIsLiked(newLikedState);
+    setLikesCount((prev) => (newLikedState ? prev + 1 : Math.max(0, prev - 1)));
+
     try {
-      const newLikedState = !isLiked;
-
-      setIsLiked(newLikedState);
       const options = {
         url: `https://route-posts.routemisr.com/posts/${postId}/like`,
         method: "PUT",
@@ -70,75 +94,76 @@ export default function PostCard({ postInfo, limit }) {
 
       const { data } = await axios.request(options);
       if (data.success) {
-        setLikesCount(data.data.likesCount);
-       
+        if (typeof data.data?.likesCount === "number") {
+          setLikesCount(data.data.likesCount);
+        }
       }
     } catch (error) {
       console.log(error);
-      setIsLiked(isLiked);
+      // Revert optimistic update on error
+      setIsLiked(previousLiked);
+      setLikesCount(previousCount);
     }
   }
+
   return (
-    <>
-      <div className="post-card space-y-3 bg-white p-5 rounded-xl border border-gray-300 shadow-sm">
-        <Post
-          postId={postInfo.id}
-          isShare={postInfo.isShare}
-          createDate={postInfo.createdAt}
-          postBody={postInfo.body || ""}
-          postImage={postInfo.image || ""}
-          settingsIcon={faEllipsis}
-          userName={postInfo.user.name}
-          sharedPostBody={postInfo.sharedPost?.body || ""}
-          sharedPostCreatedDate={postInfo.sharedPost?.createdAt || ""}
-          sharedPostImage={postInfo.sharedPost?.image || ""}
-          sharedPostUser={postInfo.sharedPost?.user?.name || ""}
-          sharedPostUserImage={postInfo.sharedPost?.user?.photo || ""}
-          userImage={postInfo.user.photo}
-          sharedPostId={postInfo.sharedPost?.id}
-        />
-        <div className="flex items-center justify-between *:text-gray-500 *:font-semibold border-y border-gray-500 px-2 py-3 -mx-5">
-          <div className="reactions flex items-center gap-2 *:hover:bg-gray-200 *:px-2 *:cursor-pointer *:rounded-xl *:transition-colors *:duration-300 ">
-            <button
-              onClick={() => {
-                handleLike(postInfo.id);
-              }}
-              className={`emojie space-x-1 ${isLiked ? "text-red-500" : ""}`}
-            >
-              <FontAwesomeIcon icon={isLiked ? faHeartSolid : faHeart} />
-              <span>{likesCount}</span>
-            </button>
-            <button className="emojie space-x-1">
-              <FontAwesomeIcon icon={faComment} />
-              <span>{postInfo.commentsCount}</span>
-            </button>
-          </div>
-          <button className="emojie space-x-1 hover:bg-gray-200 px-2 cursor-pointer rounded-xl transition-colors duration-300">
-            <FontAwesomeIcon icon={faShareNodes} />
-            <span> {postInfo.sharesCount} share</span>
+    <div className="post-card space-y-3 bg-white p-5 rounded-xl border border-gray-300 shadow-sm">
+      <Post
+        postId={postId}
+        isShare={postInfo?.isShare}
+        createDate={postInfo?.createdAt}
+        postBody={postInfo?.body || ""}
+        postImage={postInfo?.image || ""}
+        settingsIcon={faEllipsis}
+        userName={postInfo?.user?.name}
+        sharedPostBody={postInfo?.sharedPost?.body || ""}
+        sharedPostCreatedDate={postInfo?.sharedPost?.createdAt || ""}
+        sharedPostImage={postInfo?.sharedPost?.image || ""}
+        sharedPostUser={postInfo?.sharedPost?.user?.name || ""}
+        sharedPostUserImage={postInfo?.sharedPost?.user?.photo || ""}
+        userImage={postInfo?.user?.photo}
+        sharedPostId={postInfo?.sharedPost?.id}
+      />
+
+      <div className="flex items-center justify-between border-t border-gray-200 pt-3 text-xs font-semibold text-gray-500">
+        <div className="flex items-center gap-4">
+          <button
+            className={`flex items-center gap-1.5 ${
+              isLiked ? "text-red-500 font-bold" : ""
+            } hover:text-red-500 transition-colors cursor-pointer`}
+            onClick={handleLike}
+          >
+            <FontAwesomeIcon icon={isLiked ? faHeartSolid : faHeartRegular} />
+            <span>{likesCount}</span>
+          </button>
+          <button className="flex items-center gap-1.5 hover:text-purple-600 transition-colors cursor-pointer">
+            <FontAwesomeIcon icon={faCommentRegular} />
+            <span>{postInfo?.commentsCount || 0} Comments</span>
           </button>
         </div>
-
-        <div className="comments mt-5 space-y-4">
-          {comments ? (
-            comments.length > 0 ? (
-              comments.map((comment, index) => (
-                <CommentCard key={comment._id} topComment={comment} />
-              ))
-            ) : (
-              <p className="text-center text-sm font-medium">
-                No Comments Yet be The First to comment
-              </p>
-            )
-          ) : (
-            <>
-              <p className="text-center text-sm font-medium">
-                Loading Comments <FontAwesomeIcon icon={faSpinner} spin />
-              </p>
-            </>
-          )}
-        </div>
+        <button className="flex items-center gap-1.5 hover:text-purple-600 transition-colors cursor-pointer">
+          <FontAwesomeIcon icon={faShareNodes} />
+          <span>{postInfo?.sharesCount || 0} Shares</span>
+        </button>
       </div>
-    </>
+
+      <div className="comments mt-5 space-y-4">
+        {comments ? (
+          comments.length > 0 ? (
+            comments.map((comment) => (
+              <CommentCard key={comment._id} comment={comment} />
+            ))
+          ) : (
+            <p className="text-center text-xs font-medium text-gray-500">
+              No Comments Yet. Be the first to comment!
+            </p>
+          )
+        ) : (
+          <p className="text-center text-xs font-medium text-gray-500">
+            Loading Comments <FontAwesomeIcon icon={faSpinner} spin />
+          </p>
+        )}
+      </div>
+    </div>
   );
 }

@@ -19,79 +19,100 @@ export default function Post({
   sharedPostCreatedDate,
   sharedPostBody,
   sharedPostImage,
-  sharedPostId
+  sharedPostId,
 }) {
   return (
     <>
-      <header className="flex items-center justify-between">
-        <div className="poster-info flex items-center gap-2">
-          <img
-            src={userImage}
-            className="size-10 rounded-full"
-            alt="poster-photo"
-          />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="size-10 rounded-full overflow-hidden border-2 border-purple-200">
+            <img
+              src={userImage}
+              alt={userName}
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div>
-            <h2 className="font-bold text-sm  -mb-1">{userName}</h2>
-
-            <time className="text-xs -mt-2  text-gray-500">
-              <Link to={`/post/${postId}`}>
-                {new Date(createDate).toLocaleString()}
-              </Link>
-            </time>
+            <h4 className="font-bold text-sm text-gray-900 capitalize">
+              {userName}
+            </h4>
+            <Link to={`/post/${postId}`} className="text-xs text-gray-500">
+              {createDate
+                ? new Date(createDate).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })
+                : "Recently"}
+            </Link>
           </div>
         </div>
-        <button>
-          <FontAwesomeIcon
-            icon={settingsIcon}
-            className="text-sm text-gray-500 cursor-pointer"
-          />
+        <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
+          <FontAwesomeIcon icon={faEllipsis} />
         </button>
-      </header>
+      </div>
 
       <figure>
         {postBody && (
-          <figcaption className="text-2xl font-bold mb-3">
+          <figcaption className="text-sm text-gray-800 leading-relaxed">
             {postBody}
           </figcaption>
         )}
         {!isShare && postImage && (
-          <div className="rounded-2xl overflow-hidden ">
+          <div className="rounded-xl overflow-hidden border border-gray-200">
             <img
-              className="h-100 w-full object-cover object-center hover:scale-110 transition-transform duration-300"
               src={postImage}
-              alt="post-image"
+              alt="Post attachment"
+              className="w-full max-h-96 object-cover"
             />
           </div>
         )}
         {isShare && (
           <div className="border border-gray-300 rounded-xl p-3">
-            <header className="flex items-center justify-between">
-              <div className="poster-info flex items-center gap-2 mb-4">
-                <img
-                  src={sharedPostUserImage}
-                  className="size-10 rounded-full"
-                  alt="poster-photo"
-                />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="size-10 rounded-full overflow-hidden border-2 border-purple-200">
+                  <img
+                    src={sharedPostUserImage}
+                    alt={sharedPostUser}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div>
-                  <h2 className="font-bold text-sm  -mb-1">{sharedPostUser}</h2>
-                  <Link to={`/post/${sharedPostId}`} className="text-xs -mt-2  text-gray-500">
-                    {new Date(sharedPostCreatedDate).toLocaleString()}
+                  <h4 className="font-bold text-sm text-gray-900 capitalize">
+                    {sharedPostUser}
+                  </h4>
+                  <Link
+                    to={`/post/${sharedPostId}`}
+                    className="text-xs text-gray-500"
+                  >
+                    {sharedPostCreatedDate
+                      ? new Date(sharedPostCreatedDate).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                          },
+                        )
+                      : "Recently"}
                   </Link>
                 </div>
               </div>
-            </header>
+              <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
+                <FontAwesomeIcon icon={faEllipsis} />
+              </button>
+            </div>
 
             <figure>
-              <figcaption className="text-2xl font-semibold mb-3">
+              <figcaption className="text-sm text-gray-800 leading-relaxed">
                 {sharedPostBody}
               </figcaption>
             </figure>
             {sharedPostImage && (
-              <div className="rounded-2xl overflow-hidden ">
+              <div className="rounded-xl overflow-hidden border border-gray-200">
                 <img
-                  className="h-100 w-full object-cover object-center hover:scale-110 transition-transform duration-300"
                   src={sharedPostImage}
-                  alt="shared-post-image"
+                  alt="Post attachment"
+                  className="w-full max-h-96 object-cover"
                 />
               </div>
             )}

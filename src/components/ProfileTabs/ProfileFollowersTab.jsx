@@ -1,57 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faUserCheck, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faUserCheck,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../../Context/Auth.context";
 
-export default function ProfileFollowersTab({followers}) {
-  const mockFollowers = [
-    {
-      id: "f1",
-      name: "Sarah Ahmed",
-      username: "sarah_dev",
-      photo:
-        "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg",
-      bio: "Frontend Developer & UI designer",
-      isFollowing: true,
-      mutualCount: 14,
-    },
-    {
-      id: "f2",
-      name: "Omar Hassan",
-      username: "omar_h",
-      photo:
-        "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg",
-      bio: "Fullstack JS Engineer | Open source contributor",
-      isFollowing: false,
-      mutualCount: 8,
-    },
-    {
-      id: "f3",
-      name: "Nour Ali",
-      username: "nour_ali",
-      photo:
-        "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-4.jpg",
-      bio: "Product Designer @ TechLabs",
-      isFollowing: true,
-      mutualCount: 5,
-    },
-    {
-      id: "f4",
-      name: "Kareem Mostafa",
-      username: "kareem_m",
-      photo:
-        "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg",
-      bio: "React & React Native lover 🚀",
-      isFollowing: false,
-      mutualCount: 3,
-    },
-  ];
+export default function ProfileFollowersTab({ followers }) {
+
+
+
+  const { token } = useContext(AuthContext);
+
+
+  async function getFollowers() {
+    try {
+      const options = {
+        url:  ``
+      }
+    } catch (error) {
+      
+    }
+  }
+
+
+
+
+
 
   return (
     <div className="space-y-4">
       {/* Search Header */}
       <div className="bg-white rounded-xl border border-gray-300 p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h3 className="font-bold text-gray-900 text-sm">
-          Followers <span className="text-purple-700">({followers.length})</span>
+          Followers{" "}
+          <span className="text-purple-700">({followers.length})</span>
         </h3>
         <div className="relative min-w-55">
           <FontAwesomeIcon
@@ -88,7 +72,9 @@ export default function ProfileFollowersTab({followers}) {
                   <h4 className="font-bold text-sm text-gray-900 truncate capitalize">
                     {user.name}
                   </h4>
-                  <p className="text-xs text-gray-500 truncate">@{user.username}</p>
+                  <p className="text-xs text-gray-500 truncate">
+                    @{user.username}
+                  </p>
                   <p className="text-[11px] text-gray-400 mt-0.5 truncate">
                     {user.mutualCount} mutual followers
                   </p>
@@ -96,18 +82,20 @@ export default function ProfileFollowersTab({followers}) {
               </div>
 
               <button
-                className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${user.isFollowing
+                className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
+                  user.isFollowing
                     ? "bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600 border border-gray-200"
                     : "bg-purple-700 text-white hover:bg-purple-800 shadow-xs"
-                  }`}
+                }`}
               >
-                <FontAwesomeIcon icon={user.isFollowing ? faUserCheck : faUserPlus} />
+                <FontAwesomeIcon
+                  icon={user.isFollowing ? faUserCheck : faUserPlus}
+                />
                 <span>{user.isFollowing ? "Following" : "Follow"}</span>
               </button>
             </div>
           ))}
         </div>
-          
       )}
     </div>
   );

@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 export default function PostUpload({ getAllPosts }) {
   const { token, user } = useContext(AuthContext);
-  const userObj = JSON.parse(user);
+  const userObj = user;
 
   const [previewImage, setPreviewImage] = useState(null);
 

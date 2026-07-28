@@ -181,7 +181,7 @@ export default function Profile() {
                                 year: "numeric",
                                 month: "short",
                                 day: "numeric",
-                              }
+                              },
                             )}
                           </span>
                         </div>
@@ -211,7 +211,7 @@ export default function Profile() {
                                 year: "numeric",
                                 month: "short",
                                 day: "numeric",
-                              }
+                              },
                             )}
                           </span>
                         </div>
@@ -279,9 +279,15 @@ export default function Profile() {
               {activeTab === "Posts" && (
                 <ProfilePostsTab userPosts={userPosts} />
               )}
-              {activeTab === "Bookmarks" && <ProfileBookmarksTab bookmarks={user.bookmarks} />}
-              {activeTab === "Followers" && <ProfileFollowersTab followers={user.followers} />}
-              {activeTab === "Following" && <ProfileFollowingTab following={user.following} />}
+              {activeTab === "Bookmarks" && (
+                <ProfileBookmarksTab bookmarks={user.bookmarks} />
+              )}
+              {activeTab === "Followers" && (
+                <ProfileFollowersTab followers={user.followers} />
+              )}
+              {activeTab === "Following" && (
+                <ProfileFollowingTab following={user.following} />
+              )}
             </main>
           ) : (
             <div className="min-w-0 space-y-6">
