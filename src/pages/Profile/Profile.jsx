@@ -279,9 +279,9 @@ export default function Profile() {
               {activeTab === "Posts" && (
                 <ProfilePostsTab userPosts={userPosts} />
               )}
-              {activeTab === "Bookmarks" && <ProfileBookmarksTab />}
-              {activeTab === "Followers" && <ProfileFollowersTab />}
-              {activeTab === "Following" && <ProfileFollowingTab />}
+              {activeTab === "Bookmarks" && <ProfileBookmarksTab bookmarks={user.bookmarks} />}
+              {activeTab === "Followers" && <ProfileFollowersTab followers={user.followers} />}
+              {activeTab === "Following" && <ProfileFollowingTab following={user.following} />}
             </main>
           ) : (
             <div className="min-w-0 space-y-6">

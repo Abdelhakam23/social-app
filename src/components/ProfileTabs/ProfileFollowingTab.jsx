@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faUserCheck, faUserMinus } from "@fortawesome/free-solid-svg-icons";
 
-export default function ProfileFollowingTab() {
+export default function ProfileFollowingTab({following}) {
   const mockFollowing = [
     {
       id: "fg1",
@@ -38,7 +38,7 @@ export default function ProfileFollowingTab() {
       {/* Search Header */}
       <div className="bg-white rounded-xl border border-gray-300 p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h3 className="font-bold text-gray-900 text-sm">
-          Following <span className="text-purple-700">({mockFollowing.length})</span>
+          Following <span className="text-purple-700">({following.length})</span>
         </h3>
         <div className="relative min-w-55">
           <FontAwesomeIcon
@@ -54,8 +54,11 @@ export default function ProfileFollowingTab() {
       </div>
 
       {/* Following Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {mockFollowing.map((user) => (
+      {following.length === 0 ? (
+        <p className="text-center text-gray-500">No following yet</p>
+      ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {following.map((user) => (
           <div
             key={user.id}
             className="bg-white rounded-xl border border-gray-300 shadow-sm p-4 flex items-center justify-between gap-3 hover:border-purple-200 transition-colors"
@@ -90,6 +93,7 @@ export default function ProfileFollowingTab() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
