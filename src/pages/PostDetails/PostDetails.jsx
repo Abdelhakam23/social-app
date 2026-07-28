@@ -23,7 +23,6 @@ export default function PostDetails() {
 
       const { data } = await axios.request(option);
 
-      console.log(data.data.post);
       if (data.success) {
         setPostDetails(data.data.post);
       }

@@ -61,6 +61,7 @@ export default function PostCard({ postInfo, limit = 1 }) {
 
       const { data } = await axios.request(option);
       if (data.success) {
+        console.log(data.data.comments);
         setComments(data.data.comments);
       }
     } catch (error) {
@@ -151,7 +152,7 @@ export default function PostCard({ postInfo, limit = 1 }) {
         {comments ? (
           comments.length > 0 ? (
             comments.map((comment) => (
-              <CommentCard key={comment._id} comment={comment} />
+              <CommentCard key={comment._id} comment={comment} postId={postId} />
             ))
           ) : (
             <p className="text-center text-xs font-medium text-gray-500">
