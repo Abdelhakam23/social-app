@@ -8,6 +8,8 @@ export default function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
+    const [unreadCount, setUnreadCount] = useState(0);
+  
 
 
   async function logOut() {
@@ -19,16 +21,19 @@ export default function AuthProvider({ children }) {
   }
 
 
+  async function getUnreadCount() {
+    try {
+      const { data } = await api.get("/notifications/unread-count");
+      setUnreadCount(data.data.unreadCount);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   async function getProfileData() {
     if (!token) return;
     try {
-      // const options = {
-      //   url: "https://route-posts.routemisr.com//",
-      //   method: "GET",
-      //   headers: {
-      //     token,
-      //   },
-      // };
 
       const { data } = await api.get(`/users/profile-data`);
       if (data.success) {
@@ -58,8 +63,11 @@ export default function AuthProvider({ children }) {
     getProfileData();
   }, [token]);
 
+  // useEffect(() => {
+  //   getUnreadCount()
+  // },[])
   return (
-    <AuthContext.Provider value={{ token, setToken, user, setUser ,userPosts,logOut}}>
+    <AuthContext.Provider value={{ token, setToken, user, setUser ,userPosts,logOut , unreadCount,setUnreadCount,getUnreadCount}}>
       {children}
     </AuthContext.Provider>
   );

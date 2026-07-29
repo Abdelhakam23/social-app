@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import LeftSidebar from "../../components/LeftSidebar/LeftSidebar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -14,6 +14,7 @@ import {
   faBellSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import api from "../../api/api";
+import { AuthContext } from "../../Context/Auth.context";
 
 function getNotificationIcon(type) {
   switch (type) {
@@ -131,9 +132,8 @@ function NotificationsSkeleton() {
 export default function Notifications() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [notifications, setNotifications] = useState(null);
-  const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-
+  const { unreadCount, setUnreadCount,getUnreadCount } = useContext(AuthContext);
   const filters = [
     { id: "all", label: "All" },
     { id: "unread", label: "Unread" },
@@ -142,14 +142,14 @@ export default function Notifications() {
     { id: "share_post", label: "Shares" },
   ];
 
-  async function getUnreadCount() {
-    try {
-      const { data } = await api.get("/notifications/unread-count");
-      setUnreadCount(data.data.unreadCount);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async function getUnreadCount() {
+  //   try {
+  //     const { data } = await api.get("/notifications/unread-count");
+  //     setUnreadCount(data.data.unreadCount);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   async function getNotifications() {
     setIsLoading(true);

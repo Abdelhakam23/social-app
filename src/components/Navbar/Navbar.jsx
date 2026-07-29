@@ -6,7 +6,7 @@ import { Link } from "react-router";
 import { AuthContext } from "../../Context/Auth.context";
 
 export default function Navbar() {
-  const { user } = useContext(AuthContext);
+  const { user, unreadCount } = useContext(AuthContext);
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/60">
       <div className="container mx-auto max-w-7xl px-4 py-2.5 flex items-center justify-between gap-4">
@@ -40,7 +40,7 @@ export default function Navbar() {
           {/* Notification */}
           <Link to="/notifications" className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
             <FontAwesomeIcon icon={faBell} />
-            <span className="absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white"></span>
+            <span className={`${unreadCount===0? 'hidden':'block'} absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white`}></span>
           </Link>
 
           {/* Messages */}
