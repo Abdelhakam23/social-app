@@ -7,8 +7,8 @@ import axios from "axios";
 export default function Follower({ user }) {
   const { token } = useContext(AuthContext);
 
-  const [follower, setFollower] = useState(null);
-
+    const [follower, setFollower] = useState(null);
+    const [isFollowing, setIsFollowing] = useState(false);
   async function getFollowers() {
     try {
       const options = {
@@ -22,7 +22,8 @@ export default function Follower({ user }) {
       const { data } = await axios.request(options);
 
       if (data.success) {
-        setFollower(data.data.user);
+          setFollower(data.data.user);
+          setIsFollowing(data.data.isFollowing)
       }
     } catch (error) {}
   }
@@ -58,15 +59,15 @@ export default function Follower({ user }) {
 
           <button
             className={`shrink-0 px-3 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-              follower.isFollowing
+              isFollowing
                 ? "bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600 border border-gray-200"
                 : "bg-purple-700 text-white hover:bg-purple-800 shadow-xs"
             }`}
           >
             <FontAwesomeIcon
-              icon={follower.isFollowing ? faUserCheck : faUserPlus}
+              icon={isFollowing ? faUserCheck : faUserPlus}
             />
-            <span>{follower.isFollowing ? "Following" : "Follow"}</span>
+            <span>{isFollowing ? "Following" : "Follow"}</span>
           </button>
         </div>
       ) : (
