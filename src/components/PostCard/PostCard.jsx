@@ -24,13 +24,6 @@ export default function PostCard({ postInfo, limit = 1 }) {
   const [isLiked, setIsLiked] = useState(false);
 
   let currentUser = user;
-  if (typeof user === "string") {
-    try {
-      currentUser = JSON.parse(user);
-    } catch {
-      currentUser = null;
-    }
-  }
 
   useEffect(() => {
     setLikesCount(postInfo?.likesCount || 0);
@@ -101,7 +94,6 @@ export default function PostCard({ postInfo, limit = 1 }) {
       }
     } catch (error) {
       console.log(error);
-      // Revert optimistic update on error
       setIsLiked(previousLiked);
       setLikesCount(previousCount);
     }

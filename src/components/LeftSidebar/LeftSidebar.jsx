@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -10,21 +10,18 @@ import {
   faArrowRightFromBracket,
   faFire,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Context/Auth.context";
 
 export default function LeftSidebar() {
+  const { user, userPosts } = useContext(AuthContext);
 
-  const { user } = useContext(AuthContext)
-  const userObj = user;
-  
   const navItems = [
-    { icon: faHouse, label: "Home", to: "/", active: true },
-    { icon: faUser, label: "My Profile", to: `/profile/${userObj._id}` },
-    { icon: faBookmark, label: "Saved Posts", to: "/" },
-    { icon: faUsers, label: "Groups", to: "/" },
-    { icon: faCalendarDays, label: "Events", to: "/" },
-    { icon: faFire, label: "Trending", to: "/" },
+    { icon: faHouse, label: "Home", to: "/" },
+    { icon: faUser, label: "My Profile", to: `/profile/${user?._id}` },
+    { icon: faBookmark, label: "Saved Posts", to: "/saved" },
+    { icon: faCalendarDays, label: "Events", to: "/events" },
+    { icon: faFire, label: "Trending", to: "/trending" },
   ];
 
   return (
@@ -36,7 +33,7 @@ export default function LeftSidebar() {
           <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
             <div className="size-14 rounded-full border-3 border-white overflow-hidden shadow-lg">
               <img
-                src={userObj.photo}
+                src={user?.photo}
                 alt="User avatar"
                 className="w-full h-full object-cover"
               />
@@ -44,19 +41,25 @@ export default function LeftSidebar() {
           </div>
         </div>
         <div className="pt-8 pb-4 px-4 text-center">
-          <h3 className="font-bold text-gray-800">{userObj.name}</h3>
-          <p className="text-sm text-gray-500 mt-0.5">@{userObj.username}</p>
+          <h3 className="font-bold text-gray-800">{user?.name}</h3>
+          <p className="text-sm text-gray-500 mt-0.5">@{user?.username}</p>
           <div className="flex justify-center gap-6 mt-3 pt-3 border-t border-gray-200">
             <div className="text-center">
-              <p className="font-bold text-purple-700 text-sm">248</p>
+              <p className="font-bold text-purple-700 text-sm">
+                {userPosts.length}
+              </p>
               <p className="text-xs text-gray-500">Posts</p>
             </div>
             <div className="text-center">
-              <p className="font-bold text-purple-700 text-sm">1.2K</p>
+              <p className="font-bold text-purple-700 text-sm">
+                {user?.followersCount}
+              </p>
               <p className="text-xs text-gray-500">Followers</p>
             </div>
             <div className="text-center">
-              <p className="font-bold text-purple-700 text-sm">356</p>
+              <p className="font-bold text-purple-700 text-sm">
+                {user?.followingCount}
+              </p>
               <p className="text-xs text-gray-500">Following</p>
             </div>
           </div>
@@ -67,26 +70,35 @@ export default function LeftSidebar() {
       <div className="nav-menu bg-white rounded-xl border border-gray-300 shadow-sm p-3">
         <nav className="space-y-1">
           {navItems.map((item, index) => (
-            <Link
+            <NavLink
               key={index}
               to={item.to}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200 group ${
-                item.active
-                  ? "bg-purple-50 text-purple-700"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-purple-600"
-              }`}
+              onClick={() => {}}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-all duration-200 group ${
+                  isActive
+                    ? "bg-purple-50 text-purple-700"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-purple-600"
+                }`
+              }
             >
-              <FontAwesomeIcon
-                icon={item.icon}
-                className={`text-base w-5 transition-transform duration-200 group-hover:scale-110 ${
-                  item.active ? "text-purple-700" : "text-gray-400 group-hover:text-purple-500"
-                }`}
-              />
-              <span className="text-sm">{item.label}</span>
-              {item.active && (
-                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-purple-600"></div>
+              {({ isActive }) => (
+                <>
+                  <FontAwesomeIcon
+                    icon={item.icon}
+                    className={`text-base w-5 transition-transform duration-200 group-hover:scale-110 ${
+                      isActive
+                        ? "text-purple-700"
+                        : "text-gray-400 group-hover:text-purple-500"
+                    }`}
+                  />
+                  <span className="text-sm">{item.label}</span>
+                  {isActive && (
+                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-purple-600"></div>
+                  )}
+                </>
               )}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 
@@ -113,7 +125,9 @@ export default function LeftSidebar() {
 
       {/* Quick Tags */}
       <div className="bg-white rounded-xl border border-gray-300 shadow-sm p-4">
-        <h4 className="font-semibold text-gray-700 text-sm mb-3">Your Interests</h4>
+        <h4 className="font-semibold text-gray-700 text-sm mb-3">
+          Your Interests
+        </h4>
         <div className="flex flex-wrap gap-2">
           {["React", "JavaScript", "UI/UX", "Node.js", "TypeScript", "CSS"].map(
             (tag, index) => (
@@ -123,7 +137,7 @@ export default function LeftSidebar() {
               >
                 #{tag}
               </span>
-            )
+            ),
           )}
         </div>
       </div>

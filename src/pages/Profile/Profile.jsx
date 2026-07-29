@@ -19,57 +19,14 @@ import {
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../Context/Auth.context";
-import axios from "axios";
 
 export default function Profile() {
-  const { token } = useContext(AuthContext);
-  const [user, setUser] = useState(null);
-  const [userPosts, setUserPosts] = useState([]);
+ 
   const [activeTab, setActiveTab] = useState("Posts");
 
-  async function getProfileData() {
-    try {
-      const options = {
-        url: "https://route-posts.routemisr.com//users/profile-data",
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
+  const { user,userPosts } = useContext(AuthContext);
 
-      const { data } = await axios.request(options);
-      if (data.success) {
-        setUser(data.data.user);
-        getUserPosts(data.data.user._id);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  useEffect(() => {
-    getProfileData();
-  }, []);
-
-  async function getUserPosts(id) {
-    if (!id) return;
-    try {
-      const options = {
-        url: `https://route-posts.routemisr.com/users/${id}/posts`,
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
-
-      const { data } = await axios.request(options);
-      if (data.success) {
-        setUserPosts(data.data.posts);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   const tabs = [
     { label: "Posts", id: "Posts" },

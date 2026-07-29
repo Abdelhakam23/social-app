@@ -1,33 +1,60 @@
-import { createContext, useState } from "react";
+import axios from "axios";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [user, setUserState] = useState(() => {
-    const savedUser = localStorage.getItem("user");
-    if (!savedUser) return null;
-    try {
-      return typeof savedUser === "string" ? JSON.parse(savedUser) : savedUser;
-    } catch {
-      return savedUser;
-    }
-  });
+  const [user, setUser] = useState(null);
+  const [userPosts, setUserPosts] = useState([]);
 
-  const setUser = (userData) => {
-    setUserState(userData);
-    if (userData) {
-      localStorage.setItem(
-        "user",
-        typeof userData === "string" ? userData : JSON.stringify(userData)
-      );
-    } else {
-      localStorage.removeItem("user");
+  async function getProfileData() {
+    if (!token) return;
+    try {
+      const options = {
+        url: "https://route-posts.routemisr.com//users/profile-data",
+        method: "GET",
+        headers: {
+          token,
+        },
+      };
+
+      const { data } = await axios.request(options);
+      if (data.success) {
+        setUser(data.data.user);
+        getUserPosts(data.data.user._id);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }
+   async function getUserPosts(id) {
+        if (!id) return;
+        try {
+          const options = {
+            url: `https://route-posts.routemisr.com/users/${id}/posts`,
+            method: "GET",
+            headers: {
+              token,
+            },
+          };
+    
+          const { data } = await axios.request(options);
+          if (data.success) {
+            // console.log("user posts",data.data.posts);
+            setUserPosts(data.data.posts);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+     }
+  
+  useEffect(() => {
+    getProfileData();
+  }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken, user, setUser }}>
+    <AuthContext.Provider value={{ token, setToken, user, setUser ,userPosts}}>
       {children}
     </AuthContext.Provider>
   );
