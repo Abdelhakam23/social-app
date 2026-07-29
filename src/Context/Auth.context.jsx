@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import api from "../api/api";
 
 export const AuthContext = createContext(null);
 
@@ -21,15 +22,15 @@ export default function AuthProvider({ children }) {
   async function getProfileData() {
     if (!token) return;
     try {
-      const options = {
-        url: "https://route-posts.routemisr.com//users/profile-data",
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
+      // const options = {
+      //   url: "https://route-posts.routemisr.com//",
+      //   method: "GET",
+      //   headers: {
+      //     token,
+      //   },
+      // };
 
-      const { data } = await axios.request(options);
+      const { data } = await api.get(`/users/profile-data`);
       if (data.success) {
         setUser(data.data.user);
         getUserPosts(data.data.user._id);
@@ -41,15 +42,9 @@ export default function AuthProvider({ children }) {
    async function getUserPosts(id) {
         if (!id) return;
         try {
-          const options = {
-            url: `https://route-posts.routemisr.com/users/${id}/posts`,
-            method: "GET",
-            headers: {
-              token,
-            },
-          };
+        
     
-          const { data } = await axios.request(options);
+          const { data } = await api.get(`/users/${id}/posts`);
           if (data.success) {
             // console.log("user posts",data.data.posts);
             setUserPosts(data.data.posts);

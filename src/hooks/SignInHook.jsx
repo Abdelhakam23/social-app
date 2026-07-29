@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import axios from "axios";
+import api from "../api/api";
 
 
 export function useSignIn() {
@@ -28,13 +29,8 @@ export function useSignIn() {
 
   async function handleSubmit(values) {
     try {
-      const options = {
-        url: "https://route-posts.routemisr.com/users/signin",
-        method: "POST",
-        data: values,
-      };
-
-      const { data } = await axios.request(options);
+     
+      const { data } = await api.post('users/signin',values);
       console.log(data);
       
 

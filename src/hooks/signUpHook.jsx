@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
+import api from "../api/api";
 
 
 export function useSignUp() {
@@ -39,13 +40,9 @@ export function useSignUp() {
   async function handleSubmit(values) {
 
     try {
-       const options = {
-      url: "https://route-posts.routemisr.com/users/signup",
-      method: 'POST',
-      data:values
-    }
+  
 
-    const { data } = await axios.request(options);
+    const { data } = await api.post('/users/signup',values);
 
     if (data.success) {
       toast.success("Account Created Successfully");

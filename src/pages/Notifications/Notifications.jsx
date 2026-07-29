@@ -247,6 +247,18 @@ export default function Notifications() {
 
   const unreadCount = notificationsData.filter((n) => !n.isRead).length;
 
+
+  async function getNotifications() {
+    try {
+      const options = {
+        url:''
+      }
+    } catch (error) {
+      
+    }
+    
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />

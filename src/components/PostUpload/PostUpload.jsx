@@ -11,6 +11,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
+import api from "../../api/api";
 
 export default function PostUpload({ getAllPosts }) {
   const { token, user } = useContext(AuthContext);
@@ -22,16 +23,8 @@ export default function PostUpload({ getAllPosts }) {
       const formData = new FormData();
       formData.append("body", values.body);
       if (values.image) formData.append("image", values.image);
-      const options = {
-        url: "https://route-posts.routemisr.com/posts",
-        method: "POST",
-        headers: {
-          token,
-        },
-        data: formData,
-      };
-
-      const { data } = await axios.request(options);
+  
+      const { data } = await api.post(`/posts`,formData);
       if (data.success) {
         toast.success("Post Created Successfully");
         formik.resetForm();

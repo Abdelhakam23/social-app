@@ -13,6 +13,7 @@ import CommentCard from "../CommentCard/CommentCard";
 import Post from "../Post/Post";
 import axios from "axios";
 import { AuthContext } from "../../Context/Auth.context";
+import api from "../../api/api";
 
 export default function PostCard({ postInfo, limit = 1 }) {
   const [comments, setComments] = useState(null);
@@ -44,19 +45,13 @@ export default function PostCard({ postInfo, limit = 1 }) {
   async function getPostComments() {
     if (!postId) return;
     try {
-      const option = {
-        url: `https://route-posts.routemisr.com/posts/${postId}/comments?limit=${limit}`,
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
+  
 
-      const { data } = await axios.request(option);
+      const { data } = await api.get(`/posts/${postId}/comments?limit=${limit}`)
       if (data.success) {
         setComments(data.data.comments);
       }
-    } catch (error) {
+    } catch (error) { 
       console.log(error);
     }
   }

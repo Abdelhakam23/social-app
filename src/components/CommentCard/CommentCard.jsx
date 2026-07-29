@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FormField from "../ui/formField/FormField";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../Context/Auth.context";
-import axios from "axios";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import api from "../../api/api";
 
 export default function CommentCard({ comment, postId }) {
   const [showReply, setShowReply] = useState(false);
@@ -16,17 +16,11 @@ export default function CommentCard({ comment, postId }) {
   async function getReplies() {
     if (!postId || !comment?._id) return;
     try {
-      const options = {
-        url: `https://route-posts.routemisr.com/posts/${postId}/comments/${comment._id}/replies`,
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
+      const { data } = await api.get(
+        `/posts/${postId}/comments/${comment._id}/replies`,
+      );
 
-      const { data } = await axios.request(options);
       if (data.success) {
-      
         const fetchedReplies =
           data.data?.replies || data.replies || data.data || [];
         setReplies(Array.isArray(fetchedReplies) ? fetchedReplies : []);
@@ -39,18 +33,11 @@ export default function CommentCard({ comment, postId }) {
   async function addReply(values) {
     if (!postId || !comment?._id) return;
     try {
-      const options = {
-        url: `https://route-posts.routemisr.com/posts/${postId}/comments/${comment._id}/replies`,
-        method: "POST",
-        headers: {
-          token,
-        },
-        data: {
-          content: values.reply,
-        },
-      };
+    
 
-      const { data } = await axios.request(options);
+      const { data } = await api.post(`/posts/${postId}/comments/${comment._id}/replies`, {
+       content: values.reply
+      });
       if (data.success) {
         const newReply = data.data?.reply || data.reply;
         if (newReply) {

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/Auth.context";
 import axios from "axios";
+import api from "../../api/api";
 
 export default function Follower({ user }) {
   const { token } = useContext(AuthContext);
@@ -11,15 +12,9 @@ export default function Follower({ user }) {
     const [isFollowing, setIsFollowing] = useState(false);
   async function getFollowers() {
     try {
-      const options = {
-        url: `https://route-posts.routemisr.com/users/${user}/profile`,
-        mehtod: "GET",
-        headers: {
-          token,
-        },
-      };
+    
 
-      const { data } = await axios.request(options);
+      const { data } = await api.get(`/users/${user}/profile`)
 
       if (data.success) {
           setFollower(data.data.user);

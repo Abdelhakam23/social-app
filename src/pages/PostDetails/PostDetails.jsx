@@ -4,6 +4,7 @@ import { AuthContext } from "../../Context/Auth.context";
 import axios from "axios";
 import PostCard from "../../components/PostCard/PostCard";
 import PostCardSkeleton from "../../components/PostCardSkelton/PostCardSkelton";
+import api from "../../api/api";
 
 export default function PostDetails() {
   const [postDetails, setPostDetails] = useState(null);
@@ -13,15 +14,9 @@ export default function PostDetails() {
 
   async function getPostDetails() {
     try {
-      const option = {
-        url: `https://route-posts.routemisr.com/posts/${id}`,
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
+     
 
-      const { data } = await axios.request(option);
+      const { data } = await api.get(`/posts/${id}`);
 
       if (data.success) {
         setPostDetails(data.data.post);

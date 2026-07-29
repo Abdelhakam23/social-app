@@ -11,6 +11,7 @@ import { AuthContext } from "../../Context/Auth.context";
 import { usePosts } from "../../hooks/PostsHook";
 import axios from "axios";
 import SuggestedFriendsSkelton from "../SuggestedFriendsSkelton/SuggestedFriendsSkelton";
+import api from "../../api/api";
 
 export default function RightSidebar() {
   const { token } = useContext(AuthContext);
@@ -18,15 +19,8 @@ export default function RightSidebar() {
 
   async function getSuggestedFriends() {
     try {
-      const options = {
-        url: "https://route-posts.routemisr.com/users/suggestions?limit=5",
-        method: "GET",
-        headers: {
-          token,
-        },
-      };
 
-      const { data } = await axios.request(options);
+      const { data } = await api.get(`/users/suggestions?limit=5`);
 
       if (data.success) {
         setSuggestedUsers(data.data.suggestions);
