@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import LeftSidebar from "../../components/LeftSidebar/LeftSidebar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -8,208 +8,90 @@ import {
   faUserPlus,
   faShareNodes,
   faHeart,
-  faCheck,
   faCheckDouble,
-  faFilter,
   faEllipsisVertical,
   faBell,
   faBellSlash,
 } from "@fortawesome/free-solid-svg-icons";
-
-const notificationsData = [
-  {
-    _id: "6a68da5c8ebe92c2c0f9c028",
-    actor: {
-      _id: "6a2e9aea8ebe92c2c07fa815",
-      name: "James Love",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: false,
-    createdAt: "2026-07-28T16:35:40.452Z",
-    entity: {
-      _id: "6a68d6e48ebe92c2c0f9ae6f",
-      body: "اللي عمل فولو وشاله تاني مش جدع ملحقتش اطبق اللوجيك اني اعرض الفولورز",
-    },
-  },
-  {
-    _id: "6a68da378ebe92c2c0f9bf9d",
-    actor: {
-      _id: "6a68879c8ebe92c2c0f8bd8c",
-      name: "george",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: false,
-    createdAt: "2026-07-28T16:35:03.530Z",
-    entity: {
-      _id: "6a68abb08ebe92c2c0f8ece7",
-      body: "New Post",
-    },
-  },
-  {
-    _id: "6a68da128ebe92c2c0f9bf78",
-    actor: {
-      _id: "6a2e9aea8ebe92c2c07fa815",
-      name: "James Love",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "follow_user",
-    entityType: "user",
-    isRead: false,
-    createdAt: "2026-07-28T16:34:26.409Z",
-    entity: {
-      _id: "6a2e9aea8ebe92c2c07fa815",
-      name: "James Love",
-      username: "ayat",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-      followersCount: 0,
-      followingCount: 0,
-    },
-  },
-  {
-    _id: "6a68d9658ebe92c2c0f9be71",
-    actor: {
-      _id: "6a68879c8ebe92c2c0f8bd8c",
-      name: "george",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: false,
-    createdAt: "2026-07-28T16:31:33.204Z",
-    entity: {
-      _id: "6a68d6e48ebe92c2c0f9ae6f",
-      body: "اللي عمل فولو وشاله تاني مش جدع ملحقتش اطبق اللوجيك اني اعرض الفولورز",
-    },
-  },
-  {
-    _id: "6a68d9578ebe92c2c0f9be39",
-    actor: {
-      _id: "6a68879c8ebe92c2c0f8bd8c",
-      name: "george",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: true,
-    createdAt: "2026-07-28T16:31:19.784Z",
-    entity: {
-      _id: "6a68abb08ebe92c2c0f8ece7",
-      body: "New Post",
-    },
-  },
-  {
-    _id: "6a68c6518ebe92c2c0f995c6",
-    actor: {
-      _id: "6a4e557e8ebe92c2c0b6cbe4",
-      name: "mohamred",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "share_post",
-    entityType: "post",
-    isRead: true,
-    createdAt: "2026-07-28T15:10:09.683Z",
-    entity: {
-      _id: "6a68c6518ebe92c2c0f995b5",
-      unavailable: true,
-    },
-  },
-  {
-    _id: "6a68c5e58ebe92c2c0f98f73",
-    actor: {
-      _id: "6a2c0f688ebe92c2c07c5560",
-      name: "Khaled",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: true,
-    createdAt: "2026-07-28T15:08:21.933Z",
-    entity: {
-      _id: "6a68abb08ebe92c2c0f8ece7",
-      body: "New Post",
-    },
-  },
-  {
-    _id: "6a68c5338ebe92c2c0f98e4c",
-    actor: {
-      _id: "6a2c0f688ebe92c2c07c5560",
-      name: "Khaled",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: true,
-    createdAt: "2026-07-28T15:05:23.274Z",
-    entity: {
-      _id: "6a68abb08ebe92c2c0f8ece7",
-      body: "New Post",
-    },
-  },
-  {
-    _id: "6a68c5088ebe92c2c0f98de6",
-    actor: {
-      _id: "6a2c0f688ebe92c2c07c5560",
-      name: "Khaled",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: true,
-    createdAt: "2026-07-28T15:04:40.289Z",
-    entity: {
-      _id: "6a68abb08ebe92c2c0f8ece7",
-      body: "New Post",
-    },
-  },
-  {
-    _id: "6a68c45c8ebe92c2c0f98865",
-    actor: {
-      _id: "6a2c0f688ebe92c2c07c5560",
-      name: "Khaled",
-      photo: "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
-    },
-    type: "comment_post",
-    entityType: "post",
-    isRead: true,
-    createdAt: "2026-07-28T15:01:48.087Z",
-    entity: {
-      _id: "6a68abb08ebe92c2c0f8ece7",
-      body: "New Post",
-    },
-  },
-];
+import api from "../../api/api";
 
 function getNotificationIcon(type) {
   switch (type) {
     case "comment_post":
-      return { icon: faComment, color: "text-blue-500", bg: "bg-blue-50", ring: "ring-blue-100" };
+      return {
+        icon: faComment,
+        color: "text-blue-500",
+        bg: "bg-blue-50",
+        ring: "ring-blue-100",
+      };
     case "follow_user":
-      return { icon: faUserPlus, color: "text-purple-500", bg: "bg-purple-50", ring: "ring-purple-100" };
+      return {
+        icon: faUserPlus,
+        color: "text-purple-500",
+        bg: "bg-purple-50",
+        ring: "ring-purple-100",
+      };
     case "share_post":
-      return { icon: faShareNodes, color: "text-emerald-500", bg: "bg-emerald-50", ring: "ring-emerald-100" };
+      return {
+        icon: faShareNodes,
+        color: "text-emerald-500",
+        bg: "bg-emerald-50",
+        ring: "ring-emerald-100",
+      };
     case "like_post":
-      return { icon: faHeart, color: "text-rose-500", bg: "bg-rose-50", ring: "ring-rose-100" };
+      return {
+        icon: faHeart,
+        color: "text-rose-500",
+        bg: "bg-rose-50",
+        ring: "ring-rose-100",
+      };
     default:
-      return { icon: faBell, color: "text-gray-500", bg: "bg-gray-50", ring: "ring-gray-100" };
+      return {
+        icon: faBell,
+        color: "text-gray-500",
+        bg: "bg-gray-50",
+        ring: "ring-gray-100",
+      };
   }
 }
 
 function getNotificationMessage(type, actorName) {
   switch (type) {
     case "comment_post":
-      return <><span className="font-semibold text-gray-900">{actorName}</span> commented on your post</>;
+      return (
+        <>
+          <span className="font-semibold text-gray-900">{actorName}</span>{" "}
+          commented on your post
+        </>
+      );
     case "follow_user":
-      return <><span className="font-semibold text-gray-900">{actorName}</span> started following you</>;
+      return (
+        <>
+          <span className="font-semibold text-gray-900">{actorName}</span>{" "}
+          started following you
+        </>
+      );
     case "share_post":
-      return <><span className="font-semibold text-gray-900">{actorName}</span> shared your post</>;
+      return (
+        <>
+          <span className="font-semibold text-gray-900">{actorName}</span>{" "}
+          shared your post
+        </>
+      );
     case "like_post":
-      return <><span className="font-semibold text-gray-900">{actorName}</span> liked your post</>;
+      return (
+        <>
+          <span className="font-semibold text-gray-900">{actorName}</span> liked
+          your post
+        </>
+      );
     default:
-      return <><span className="font-semibold text-gray-900">{actorName}</span> interacted with you</>;
+      return (
+        <>
+          <span className="font-semibold text-gray-900">{actorName}</span>{" "}
+          interacted with you
+        </>
+      );
   }
 }
 
@@ -228,8 +110,29 @@ function formatTimeAgo(dateString) {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
+// 🦴 Component للـ Skeleton Loading
+function NotificationsSkeleton() {
+  return (
+    <div className="bg-white rounded-2xl border border-gray-300 shadow-sm overflow-hidden divide-y divide-gray-100 animate-pulse">
+      {[1, 2, 3, 4, 5].map((i) => (
+        <div key={i} className="px-5 py-4 flex items-start gap-4">
+          <div className="size-12 rounded-full bg-gray-200 shrink-0" />
+          <div className="flex-1 space-y-2 pt-1">
+            <div className="h-4 bg-gray-200 rounded-md w-3/4" />
+            <div className="h-3 bg-gray-100 rounded-md w-1/2" />
+            <div className="h-3 bg-gray-100 rounded-md w-1/4 mt-2" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Notifications() {
   const [activeFilter, setActiveFilter] = useState("all");
+  const [notifications, setNotifications] = useState(null);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const filters = [
     { id: "all", label: "All" },
@@ -239,25 +142,60 @@ export default function Notifications() {
     { id: "share_post", label: "Shares" },
   ];
 
-  const filteredNotifications = notificationsData.filter((n) => {
+  async function getUnreadCount() {
+    try {
+      const { data } = await api.get("/notifications/unread-count");
+      setUnreadCount(data.data.unreadCount);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getNotifications() {
+    setIsLoading(true);
+    try {
+      const { data } = await api.get("/notifications");
+      if (data.success) {
+        setNotifications(data.data.notifications);
+        getUnreadCount();
+      }
+    } catch (error) {
+      console.log(error);
+      setNotifications([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getNotifications();
+  }, []);
+
+  // ⚡ تحديث الـ State فوراً محلياً (Optimistic UI Update)
+  async function markAsRead() {
+    if (unreadCount === 0) return;
+
+    // 1. تحديث الـ UI مباشرة وبدون انتظار الـ API
+    setUnreadCount(0);
+    setNotifications((prev) =>
+      prev ? prev.map((n) => ({ ...n, isRead: true })) : []
+    );
+
+    // 2. إرسال الـ Request للـ Backend في الخفاء
+    try {
+      await api.patch("/notifications/read-all");
+    } catch (error) {
+      console.log("Error marking notifications as read:", error);
+      // في حالة حدوث خطأ، يمكنك إعادة جلب البيانات الصحيحة
+      getNotifications();
+    }
+  }
+
+  const filteredNotifications = notifications?.filter((n) => {
     if (activeFilter === "all") return true;
     if (activeFilter === "unread") return !n.isRead;
     return n.type === activeFilter;
   });
-
-  const unreadCount = notificationsData.filter((n) => !n.isRead).length;
-
-
-  async function getNotifications() {
-    try {
-      const options = {
-        url:''
-      }
-    } catch (error) {
-      
-    }
-    
-  }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -273,21 +211,33 @@ export default function Notifications() {
           <main className="min-w-0 space-y-4">
             {/* Header Card */}
             <div className="bg-white rounded-2xl border border-gray-300 shadow-sm overflow-hidden">
-              {/* Title Bar */}
               <div className="px-6 py-5 border-b border-gray-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="size-10 rounded-xl bg-linear-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-md shadow-purple-200">
-                      <FontAwesomeIcon icon={faBell} className="text-white text-sm" />
+                      <FontAwesomeIcon
+                        icon={faBell}
+                        className="text-white text-sm"
+                      />
                     </div>
                     <div>
-                      <h1 className="text-xl font-bold text-gray-900">Notifications</h1>
+                      <h1 className="text-xl font-bold text-gray-900">
+                        Notifications
+                      </h1>
                       <p className="text-xs text-gray-500 mt-0.5">
-                        You have <span className="text-purple-600 font-semibold">{unreadCount}</span> unread notifications
+                        You have{" "}
+                        <span className="text-purple-600 font-semibold">
+                          {unreadCount}
+                        </span>{" "}
+                        unread notifications
                       </p>
                     </div>
                   </div>
-                  <button className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors duration-200 cursor-pointer">
+                  <button
+                    onClick={markAsRead}
+                    disabled={unreadCount === 0}
+                    className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors duration-200 cursor-pointer"
+                  >
                     <FontAwesomeIcon icon={faCheckDouble} />
                     <span className="hidden sm:inline">Mark all as read</span>
                   </button>
@@ -308,11 +258,13 @@ export default function Notifications() {
                   >
                     {filter.label}
                     {filter.id === "unread" && unreadCount > 0 && (
-                      <span className={`ml-1.5 px-1.5 py-0.5 text-[10px] rounded-full ${
-                        activeFilter === "unread"
-                          ? "bg-white/20 text-white"
-                          : "bg-purple-100 text-purple-700"
-                      }`}>
+                      <span
+                        className={`ml-1.5 px-1.5 py-0.5 text-[10px] rounded-full ${
+                          activeFilter === "unread"
+                            ? "bg-white/20 text-white"
+                            : "bg-purple-100 text-purple-700"
+                        }`}
+                      >
                         {unreadCount}
                       </span>
                     )}
@@ -321,8 +273,9 @@ export default function Notifications() {
               </div>
             </div>
 
-            {/* Notifications List */}
-            {filteredNotifications.length > 0 ? (
+            {isLoading ? (
+              <NotificationsSkeleton />
+            ) : filteredNotifications && filteredNotifications.length > 0 ? (
               <div className="bg-white rounded-2xl border border-gray-300 shadow-sm overflow-hidden divide-y divide-gray-100">
                 {filteredNotifications.map((notification, index) => {
                   const iconData = getNotificationIcon(notification.type);
@@ -341,7 +294,6 @@ export default function Notifications() {
                         animation: "fadeInUp 0.4s ease-out forwards",
                       }}
                     >
-                      {/* Avatar with type icon */}
                       <div className="relative shrink-0">
                         <div className="size-12 rounded-full overflow-hidden border-2 border-white shadow-md">
                           <img
@@ -353,24 +305,30 @@ export default function Notifications() {
                         <div
                           className={`absolute -bottom-1 -right-1 size-6 rounded-full ${iconData.bg} ${iconData.color} flex items-center justify-center ring-2 ${iconData.ring} shadow-sm`}
                         >
-                          <FontAwesomeIcon icon={iconData.icon} className="text-[10px]" />
+                          <FontAwesomeIcon
+                            icon={iconData.icon}
+                            className="text-[10px]"
+                          />
                         </div>
                       </div>
 
-                      {/* Content */}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-gray-600 leading-relaxed">
-                          {getNotificationMessage(notification.type, notification.actor.name)}
+                          {getNotificationMessage(
+                            notification.type,
+                            notification.actor.name
+                          )}
                         </p>
 
-                        {/* Entity preview */}
-                        {notification.entity && !isUnavailable && notification.entity.body && (
-                          <div className="mt-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200/80 group-hover:bg-gray-100/80 transition-colors">
-                            <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                              "{notification.entity.body}"
-                            </p>
-                          </div>
-                        )}
+                        {notification.entity &&
+                          !isUnavailable &&
+                          notification.entity.body && (
+                            <div className="mt-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200/80 group-hover:bg-gray-100/80 transition-colors">
+                              <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                                "{notification.entity.body}"
+                              </p>
+                            </div>
+                          )}
 
                         {isUnavailable && (
                           <div className="mt-2 px-3 py-2 bg-gray-50 rounded-lg border border-gray-200/80 border-dashed">
@@ -380,43 +338,45 @@ export default function Notifications() {
                           </div>
                         )}
 
-                        {/* Follow entity — show profile card */}
-                        {notification.type === "follow_user" && notification.entity && !isUnavailable && (
-                          <div className="mt-2.5 flex items-center gap-3 px-3 py-2.5 bg-linear-to-r from-purple-50 to-indigo-50 rounded-lg border border-purple-200/60">
-                            <div className="size-8 rounded-full overflow-hidden border border-white shadow-sm">
-                              <img
-                                src={notification.entity.photo}
-                                alt={notification.entity.name}
-                                className="w-full h-full object-cover"
-                              />
+                        {notification.type === "follow_user" &&
+                          notification.entity &&
+                          !isUnavailable && (
+                            <div className="mt-2.5 flex items-center gap-3 px-3 py-2.5 bg-linear-to-r from-purple-50 to-indigo-50 rounded-lg border border-purple-200/60">
+                              <div className="size-8 rounded-full overflow-hidden border border-white shadow-sm">
+                                <img
+                                  src={notification.entity.photo}
+                                  alt={notification.entity.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-semibold text-gray-800 truncate">
+                                  {notification.entity.name}
+                                </p>
+                                <p className="text-[10px] text-gray-500">
+                                  @{notification.entity.username}
+                                </p>
+                              </div>
+                              <button className="px-3 py-1 text-[10px] font-bold bg-purple-700 text-white rounded-lg hover:bg-purple-800 transition-colors cursor-pointer shadow-sm">
+                                Follow Back
+                              </button>
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs font-semibold text-gray-800 truncate">
-                                {notification.entity.name}
-                              </p>
-                              <p className="text-[10px] text-gray-500">
-                                @{notification.entity.username}
-                              </p>
-                            </div>
-                            <button className="px-3 py-1 text-[10px] font-bold bg-purple-700 text-white rounded-lg hover:bg-purple-800 transition-colors cursor-pointer shadow-sm">
-                              Follow Back
-                            </button>
-                          </div>
-                        )}
+                          )}
 
-                        {/* Timestamp */}
                         <p className="text-[11px] text-gray-400 mt-2 font-medium">
                           {formatTimeAgo(notification.createdAt)}
                         </p>
                       </div>
 
-                      {/* Unread dot & actions */}
                       <div className="flex items-center gap-2 shrink-0 pt-1">
                         {!notification.isRead && (
                           <div className="size-2.5 rounded-full bg-purple-500 shadow-sm shadow-purple-200 animate-pulse" />
                         )}
                         <button className="opacity-0 group-hover:opacity-100 size-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-all duration-200 cursor-pointer">
-                          <FontAwesomeIcon icon={faEllipsisVertical} className="text-xs" />
+                          <FontAwesomeIcon
+                            icon={faEllipsisVertical}
+                            className="text-xs"
+                          />
                         </button>
                       </div>
                     </div>
@@ -427,7 +387,10 @@ export default function Notifications() {
               /* Empty State */
               <div className="bg-white rounded-2xl border border-gray-300 shadow-sm p-12 text-center">
                 <div className="size-20 mx-auto rounded-full bg-linear-to-br from-purple-100 to-indigo-100 flex items-center justify-center mb-5">
-                  <FontAwesomeIcon icon={faBellSlash} className="text-3xl text-purple-400" />
+                  <FontAwesomeIcon
+                    icon={faBellSlash}
+                    className="text-3xl text-purple-400"
+                  />
                 </div>
                 <h3 className="text-lg font-bold text-gray-800 mb-2">
                   No notifications found
@@ -447,25 +410,6 @@ export default function Notifications() {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      `}</style>
     </div>
   );
 }
