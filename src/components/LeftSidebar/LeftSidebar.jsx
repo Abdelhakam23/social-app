@@ -10,11 +10,18 @@ import {
   faArrowRightFromBracket,
   faFire,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/Auth.context";
 
 export default function LeftSidebar() {
-  const { user, userPosts } = useContext(AuthContext);
+  const { user, userPosts,logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+ async function handleLogOut() {
+    await logOut();
+    navigate("/signin");
+    
+  }
 
   const navItems = [
     { icon: faHouse, label: "Home", to: "/" },
@@ -113,7 +120,7 @@ export default function LeftSidebar() {
             />
             <span className="text-sm">Settings</span>
           </Link>
-          <button className="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all duration-200 w-full group cursor-pointer">
+          <button onClick={handleLogOut} className="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-gray-600 hover:bg-red-50 hover:text-red-500 transition-all duration-200 w-full group cursor-pointer">
             <FontAwesomeIcon
               icon={faArrowRightFromBracket}
               className="text-base w-5 text-gray-400 group-hover:text-red-400 transition-transform duration-200 group-hover:translate-x-0.5"

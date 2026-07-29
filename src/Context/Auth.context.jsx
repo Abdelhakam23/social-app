@@ -8,6 +8,15 @@ export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
 
+
+  async function logOut() {
+
+    localStorage.removeItem("token");
+    setToken(null);
+    setUser(null);
+    
+  }
+
   async function getProfileData() {
     if (!token) return;
     try {
@@ -54,7 +63,7 @@ export default function AuthProvider({ children }) {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken, user, setUser ,userPosts}}>
+    <AuthContext.Provider value={{ token, setToken, user, setUser ,userPosts,logOut}}>
       {children}
     </AuthContext.Provider>
   );
