@@ -1,10 +1,12 @@
 import { faBell, faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../../Context/Auth.context";
 
 export default function Navbar() {
+  const { user } = useContext(AuthContext);
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/60">
       <div className="container mx-auto max-w-7xl px-4 py-2.5 flex items-center justify-between gap-4">
@@ -36,30 +38,30 @@ export default function Navbar() {
           </button>
 
           {/* Notification */}
-          <button className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+          <Link to="/notifications" className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
             <FontAwesomeIcon icon={faBell} />
             <span className="absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white"></span>
-          </button>
+          </Link>
 
           {/* Messages */}
-          <button className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+          <Link to="/messages" className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
             <FontAwesomeIcon icon={faEnvelope} />
             <span className="absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white"></span>
-          </button>
+          </Link>
 
           {/* Divider */}
           <div className="hidden sm:block w-px h-6 bg-gray-200 mx-1"></div>
 
           {/* User Avatar */}
-          <button className="shrink-0 cursor-pointer group">
+          <Link to={`/profile/${user?._id}`} className="shrink-0 cursor-pointer group">
             <div className="size-8 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-purple-400 transition-colors duration-200">
               <img
-                src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg"
+                src={user?.photo}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
             </div>
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
