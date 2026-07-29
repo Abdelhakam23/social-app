@@ -26,7 +26,7 @@ export default function CommentCard({ comment, postId }) {
 
       const { data } = await axios.request(options);
       if (data.success) {
-        console.log("replies response:", data);
+      
         const fetchedReplies =
           data.data?.replies || data.replies || data.data || [];
         setReplies(Array.isArray(fetchedReplies) ? fetchedReplies : []);

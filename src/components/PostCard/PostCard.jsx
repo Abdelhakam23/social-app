@@ -54,7 +54,6 @@ export default function PostCard({ postInfo, limit = 1 }) {
 
       const { data } = await axios.request(option);
       if (data.success) {
-        console.log(data.data.comments);
         setComments(data.data.comments);
       }
     } catch (error) {
