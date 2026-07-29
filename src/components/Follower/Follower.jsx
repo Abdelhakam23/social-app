@@ -6,7 +6,6 @@ import axios from "axios";
 import api from "../../api/api";
 
 export default function Follower({ user }) {
-  const { token } = useContext(AuthContext);
 
     const [follower, setFollower] = useState(null);
     const [isFollowing, setIsFollowing] = useState(false);
