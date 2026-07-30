@@ -22,15 +22,26 @@ import {
   faCircleCheck,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faHeartRegular, faComment as faCommentRegular } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as faHeartRegular,
+  faComment as faCommentRegular,
+} from "@fortawesome/free-regular-svg-icons";
 
 export default function Welcome() {
   // State for interactive demo post card on the landing page
   const [demoLiked, setDemoLiked] = useState(false);
   const [demoLikesCount, setDemoLikesCount] = useState(42);
   const [demoComments, setDemoComments] = useState([
-    { id: 1, name: "Alex Rivers", text: "SocialHub design looks super clean! 🔥" },
-    { id: 2, name: "Elena Rostova", text: "Excited to connect with everyone here!" },
+    {
+      id: 1,
+      name: "Alex Rivers",
+      text: "SocialHub design looks super clean! 🔥",
+    },
+    {
+      id: 2,
+      name: "Elena Rostova",
+      text: "Excited to connect with everyone here!",
+    },
   ]);
   const [demoInput, setDemoInput] = useState("");
   const [activeFaq, setActiveFaq] = useState(null);
@@ -122,19 +133,23 @@ export default function Welcome() {
   const faqs = [
     {
       question: "Is SocialHub completely free to use?",
-      answer: "Yes! SocialHub is 100% free for creators, developers, and users everywhere. You can create an account, post content, engage, and connect without any subscription fees.",
+      answer:
+        "Yes! SocialHub is 100% free for creators, developers, and users everywhere. You can create an account, post content, engage, and connect without any subscription fees.",
     },
     {
       question: "Can I access SocialHub on mobile devices?",
-      answer: "Absolutely! SocialHub is fully responsive and optimized for seamless experience across mobile phones, tablets, and desktop computers.",
+      answer:
+        "Absolutely! SocialHub is fully responsive and optimized for seamless experience across mobile phones, tablets, and desktop computers.",
     },
     {
       question: "How do I save posts to read later?",
-      answer: "You can save any post by clicking the bookmark icon. All your saved posts will be neatly organized in your personal 'Saved Posts' section.",
+      answer:
+        "You can save any post by clicking the bookmark icon. All your saved posts will be neatly organized in your personal 'Saved Posts' section.",
     },
     {
       question: "Is my personal data and profile secure?",
-      answer: "Yes, we prioritize user security with encrypted authentication tokens and strict privacy protocols to keep your information safe.",
+      answer:
+        "Yes, we prioritize user security with encrypted authentication tokens and strict privacy protocols to keep your information safe.",
     },
   ];
 
@@ -153,10 +168,24 @@ export default function Welcome() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-            <a href="#features" className="hover:text-purple-600 transition-colors">Features</a>
-            <a href="#how-it-works" className="hover:text-purple-600 transition-colors">How It Works</a>
-            <a href="#demo" className="hover:text-purple-600 transition-colors">Live Preview</a>
-            <a href="#faq" className="hover:text-purple-600 transition-colors">FAQ</a>
+            <a
+              href="#features"
+              className="hover:text-purple-600 transition-colors"
+            >
+              Features
+            </a>
+            <a
+              href="#how-it-works"
+              className="hover:text-purple-600 transition-colors"
+            >
+              How It Works
+            </a>
+            <a href="#demo" className="hover:text-purple-600 transition-colors">
+              Live Preview
+            </a>
+            <a href="#faq" className="hover:text-purple-600 transition-colors">
+              FAQ
+            </a>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -165,20 +194,14 @@ export default function Welcome() {
               className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-purple-600 border border-slate-300 hover:border-purple-300 rounded-xl transition-all duration-200 flex items-center gap-2"
             >
               <FontAwesomeIcon icon={faRightToBracket} className="text-xs" />
-              <span className="hidden md:block">
-
-              Sign In
-              </span>
+              <span className="hidden md:block">Sign In</span>
             </Link>
             <Link
               to="/signup"
               className="px-4 py-2 text-sm font-semibold text-white bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl shadow-md shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-200 flex items-center gap-2"
             >
               <FontAwesomeIcon icon={faUserPlus} className="text-xs" />
-              <span className="hidden md:block">
-
-              Get Started
-              </span>
+              <span className="hidden md:block">Get Started</span>
             </Link>
           </div>
         </div>
@@ -193,16 +216,24 @@ export default function Welcome() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100/80 border border-purple-200 text-purple-700 text-xs font-semibold tracking-wide uppercase shadow-xs animate-bounce">
-              <FontAwesomeIcon icon={faWandMagicSparkles} className="text-purple-600" />
+              <FontAwesomeIcon
+                icon={faWandMagicSparkles}
+                className="text-purple-600"
+              />
               Welcome to the Next Generation Social Platform
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
-              Connect, Share & Discover with <span className="bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800 bg-clip-text text-transparent">SocialHub</span>
+              Connect, Share & Discover with{" "}
+              <span className="bg-linear-to-r from-purple-600 via-indigo-600 to-purple-800 bg-clip-text text-transparent">
+                SocialHub
+              </span>
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed max-w-2xl mx-auto">
-              Share your story, engage with vibrant creators, publish posts, and explore real-time community discussions — all in one modern, beautiful app.
+              Share your story, engage with vibrant creators, publish posts, and
+              explore real-time community discussions — all in one modern,
+              beautiful app.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -211,7 +242,10 @@ export default function Welcome() {
                 className="w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-2xl shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-3 cursor-pointer group"
               >
                 <span>Join SocialHub Now</span>
-                <FontAwesomeIcon icon={faArrowRight} className="group-hover:translate-x-1 transition-transform" />
+                <FontAwesomeIcon
+                  icon={faArrowRight}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
               </Link>
 
               <Link
@@ -225,15 +259,24 @@ export default function Welcome() {
             {/* Quick Highlights */}
             <div className="pt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-500 font-medium">
               <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCircleCheck} className="text-emerald-500" />
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-emerald-500"
+                />
                 <span>100% Free Access</span>
               </div>
               <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCircleCheck} className="text-emerald-500" />
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-emerald-500"
+                />
                 <span>No Credit Card Needed</span>
               </div>
               <div className="flex items-center gap-2">
-                <FontAwesomeIcon icon={faCircleCheck} className="text-emerald-500" />
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-emerald-500"
+                />
                 <span>Instant Account Setup</span>
               </div>
             </div>
@@ -263,10 +306,17 @@ export default function Welcome() {
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <h3 className="font-bold text-slate-900 text-sm">Sarah Jenkins</h3>
-                      <FontAwesomeIcon icon={faCheckCircle} className="text-purple-600 text-xs" />
+                      <h3 className="font-bold text-slate-900 text-sm">
+                        Sarah Jenkins
+                      </h3>
+                      <FontAwesomeIcon
+                        icon={faCheckCircle}
+                        className="text-purple-600 text-xs"
+                      />
                     </div>
-                    <p className="text-xs text-slate-400">@sarah_dev • 2 hours ago</p>
+                    <p className="text-xs text-slate-400">
+                      @sarah_dev • 2 hours ago
+                    </p>
                   </div>
                 </div>
                 <span className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-xs font-semibold border border-purple-100">
@@ -277,7 +327,10 @@ export default function Welcome() {
               {/* Post Content */}
               <div className="p-5 space-y-4">
                 <p className="text-slate-700 text-sm leading-relaxed">
-                  Building responsive, high-performance web applications with clean design systems is super rewarding! Welcome to everyone joining <strong>SocialHub</strong> today. What are you building this week? 🚀✨
+                  Building responsive, high-performance web applications with
+                  clean design systems is super rewarding! Welcome to everyone
+                  joining <strong>SocialHub</strong> today. What are you
+                  building this week? 🚀✨
                 </p>
 
                 <div className="rounded-xl overflow-hidden max-h-72 border border-slate-100 bg-slate-900">
@@ -299,10 +352,15 @@ export default function Welcome() {
                 <button
                   onClick={handleDemoLike}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all cursor-pointer ${
-                    demoLiked ? "text-rose-600 bg-rose-50 font-bold" : "text-slate-600 hover:bg-slate-100"
+                    demoLiked
+                      ? "text-rose-600 bg-rose-50 font-bold"
+                      : "text-slate-600 hover:bg-slate-100"
                   }`}
                 >
-                  <FontAwesomeIcon icon={demoLiked ? faHeartSolid : faHeartRegular} className={demoLiked ? "text-rose-500 animate-pulse" : ""} />
+                  <FontAwesomeIcon
+                    icon={demoLiked ? faHeartSolid : faHeartRegular}
+                    className={demoLiked ? "text-rose-500 animate-pulse" : ""}
+                  />
                   <span>{demoLiked ? "Liked" : "Like"}</span>
                 </button>
 
@@ -325,14 +383,21 @@ export default function Welcome() {
                       {c.name.charAt(0)}
                     </div>
                     <div className="bg-white p-2.5 rounded-xl border border-slate-200/80 shadow-2xs flex-1">
-                      <span className="font-bold text-slate-900 block">{c.name}</span>
-                      <span className="text-slate-600 mt-0.5 block">{c.text}</span>
+                      <span className="font-bold text-slate-900 block">
+                        {c.name}
+                      </span>
+                      <span className="text-slate-600 mt-0.5 block">
+                        {c.text}
+                      </span>
                     </div>
                   </div>
                 ))}
 
                 {/* Comment Input */}
-                <form onSubmit={handleDemoAddComment} className="flex items-center gap-2 pt-2">
+                <form
+                  onSubmit={handleDemoAddComment}
+                  className="flex items-center gap-2 pt-2"
+                >
                   <input
                     type="text"
                     value={demoInput}
@@ -345,7 +410,10 @@ export default function Welcome() {
                     className="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <span>Post</span>
-                    <FontAwesomeIcon icon={faPaperPlane} className="text-[10px]" />
+                    <FontAwesomeIcon
+                      icon={faPaperPlane}
+                      className="text-[10px]"
+                    />
                   </button>
                 </form>
               </div>
@@ -355,7 +423,10 @@ export default function Welcome() {
       </section>
 
       {/* 4. Features Section */}
-      <section id="features" className="py-20 bg-white border-y border-slate-200/70 relative">
+      <section
+        id="features"
+        className="py-20 bg-white border-y border-slate-200/70 relative"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
             <span className="text-xs font-bold tracking-widest text-purple-600 uppercase bg-purple-100 px-3.5 py-1 rounded-full">
@@ -365,7 +436,8 @@ export default function Welcome() {
               Designed for simple, meaningful connections
             </h2>
             <p className="text-slate-600 text-base">
-              SocialHub provides everything you need to connect with people, share ideas, and build your profile seamlessly.
+              SocialHub provides everything you need to connect with people,
+              share ideas, and build your profile seamlessly.
             </p>
           </div>
 
@@ -375,11 +447,17 @@ export default function Welcome() {
                 key={idx}
                 className="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1 transition-all duration-300 group"
               >
-                <div className={`w-12 h-12 rounded-xl bg-linear-to-r ${item.gradient} text-white flex items-center justify-center text-xl shadow-md mb-5 group-hover:scale-110 transition-transform`}>
+                <div
+                  className={`w-12 h-12 rounded-xl bg-linear-to-r ${item.gradient} text-white flex items-center justify-center text-xl shadow-md mb-5 group-hover:scale-110 transition-transform`}
+                >
                   <FontAwesomeIcon icon={item.icon} />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -397,7 +475,8 @@ export default function Welcome() {
               Get Started in 3 Simple Steps
             </h2>
             <p className="text-slate-600 text-base">
-              Joining SocialHub takes less than a minute. Here is how you can jump right in.
+              Joining SocialHub takes less than a minute. Here is how you can
+              jump right in.
             </p>
           </div>
 
@@ -415,8 +494,12 @@ export default function Welcome() {
                   {s.step}
                 </span>
 
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{s.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{s.desc}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {s.title}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {s.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -470,7 +553,8 @@ export default function Welcome() {
             Ready to join the SocialHub community?
           </h2>
           <p className="text-slate-300 text-base max-w-xl mx-auto">
-            Create your account today and start sharing your journey with creators worldwide.
+            Create your account today and start sharing your journey with
+            creators worldwide.
           </p>
 
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -506,8 +590,12 @@ export default function Welcome() {
           <p>© {new Date().getFullYear()} SocialHub. All rights reserved.</p>
 
           <div className="flex items-center gap-4 text-slate-400">
-            <Link to="/signin" className="hover:text-white transition-colors">Sign In</Link>
-            <Link to="/signup" className="hover:text-white transition-colors">Sign Up</Link>
+            <Link to="/signin" className="hover:text-white transition-colors">
+              Sign In
+            </Link>
+            <Link to="/signup" className="hover:text-white transition-colors">
+              Sign Up
+            </Link>
           </div>
         </div>
       </footer>

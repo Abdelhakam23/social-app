@@ -1,5 +1,5 @@
 import { faBell, faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext } from "react";
 import { Link } from "react-router";
@@ -11,10 +11,13 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/60">
       <div className="container mx-auto max-w-7xl px-4 py-2.5 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link to="/" className="shrink-0">
-          <h1 className="text-xl font-bold bg-linear-to-r from-purple-800 to-purple-500 bg-clip-text text-transparent tracking-tight">
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <span className="w-10 h-10 rounded-xl bg-linear-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white text-lg shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform duration-200">
+            <FontAwesomeIcon icon={faUsers} />
+          </span>
+          <span className="text-xl font-bold bg-linear-to-r from-purple-700 via-indigo-600 to-purple-900 bg-clip-text text-transparent tracking-tight">
             SocialHub
-          </h1>
+          </span>
         </Link>
 
         {/* Search Bar */}
@@ -38,13 +41,21 @@ export default function Navbar() {
           </button>
 
           {/* Notification */}
-          <Link to="/notifications" className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+          <Link
+            to="/notifications"
+            className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer"
+          >
             <FontAwesomeIcon icon={faBell} />
-            <span className={`${unreadCount===0? 'hidden':'block'} absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white`}></span>
+            <span
+              className={`${unreadCount === 0 ? "hidden" : "block"} absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white`}
+            ></span>
           </Link>
 
           {/* Messages */}
-          <Link to="/messages" className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+          <Link
+            to="/messages"
+            className="relative size-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 cursor-pointer"
+          >
             <FontAwesomeIcon icon={faEnvelope} />
             <span className="hidden absolute top-1 right-1 size-2 bg-purple-500 rounded-full ring-2 ring-white"></span>
           </Link>
@@ -53,7 +64,10 @@ export default function Navbar() {
           <div className="hidden sm:block w-px h-6 bg-gray-200 mx-1"></div>
 
           {/* User Avatar */}
-          <Link to={`/profile/${user?._id}`} className="shrink-0 cursor-pointer group">
+          <Link
+            to={`/profile/${user?._id}`}
+            className="shrink-0 cursor-pointer group"
+          >
             <div className="size-8 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-purple-400 transition-colors duration-200">
               <img
                 src={user?.photo}
