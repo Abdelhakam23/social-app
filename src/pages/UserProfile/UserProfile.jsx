@@ -88,10 +88,7 @@ export default function UserProfile() {
                       className="w-full h-full object-cover"
                     />
                   ) : null}
-                  <button className="absolute top-4 right-4 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-2 transition-colors cursor-pointer">
-                    <FontAwesomeIcon icon={faCamera} />
-                    <span>Edit Cover</span>
-                  </button>
+                 
                 </div>
 
                 {/* Profile Details Container */}
@@ -105,17 +102,12 @@ export default function UserProfile() {
                           alt={user?.name}
                           className="w-full h-full object-cover"
                         />
-                        <button className="absolute bottom-2 right-2 bg-purple-700 hover:bg-purple-800 text-white size-7 rounded-full flex items-center justify-center text-xs shadow-md border-2 border-white transition-colors cursor-pointer">
-                          <FontAwesomeIcon icon={faCamera} />
-                        </button>
+                       
                       </div>
                     </div>
 
                     <div className="flex items-center gap-2 sm:mb-2">
-                      <button className="flex-1 sm:flex-none px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white text-sm font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer">
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                        <span>Edit Profile</span>
-                      </button>
+                     
                       <button className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors cursor-pointer">
                         <FontAwesomeIcon icon={faShareNodes} />
                       </button>
