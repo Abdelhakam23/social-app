@@ -6,6 +6,7 @@ import {
   faUserMinus,
 } from "@fortawesome/free-solid-svg-icons";
 import Following from "../Following/Following";
+import { Link } from "react-router";
 
 export default function ProfileFollowingTab({ following }) {
   return (
@@ -33,7 +34,10 @@ export default function ProfileFollowingTab({ following }) {
       {following.length === 0 ? (
         <p className="text-center text-gray-500">No following yet</p>
       ) : (
-          following.map((id) =>  <Following key={id} id={id} />
+          following.map((user) => <Link to={`/user-profile/${user}`}>
+            
+            <Following key={user._id||user} id={user._id||user} />
+          </Link>
         )
       )}
     </div>

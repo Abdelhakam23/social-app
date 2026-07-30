@@ -110,6 +110,7 @@ export default function PostCard({ postInfo, limit = 1 }) {
         sharedPostUserImage={postInfo?.sharedPost?.user?.photo || ""}
         userImage={postInfo?.user?.photo}
         sharedPostId={postInfo?.sharedPost?.id}
+        userId={postInfo.user._id}
       />
 
       <div className="flex items-center justify-between border-t border-gray-200 pt-3 text-xs font-semibold text-gray-500">

@@ -8,6 +8,7 @@ import {
 import { AuthContext } from "../../Context/Auth.context";
 import axios from "axios";
 import Follower from "../Follower/Follower";
+import { Link } from "react-router";
 
 export default function ProfileFollowersTab({ followers }) {
   return (
@@ -36,9 +37,16 @@ export default function ProfileFollowersTab({ followers }) {
         <p className="text-center text-gray-500">No followers yet</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {followers.map((user) => (
-            <Follower key={user} user={user} />
-          ))}
+            {followers.map((user) =>
+            {
+              const userId = typeof user === "object" ? user._id || user.id : user;
+            return  (
+              <Link key={userId} to={`/user-profile/${userId}`}>
+                <Follower userId={userId} />
+              </Link>
+                )
+            }
+            )}
         </div>
       )}
     </div>

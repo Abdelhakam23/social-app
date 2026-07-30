@@ -31,6 +31,9 @@ export default function AuthProvider({ children }) {
   }
 
 
+
+
+
   async function getProfileData() {
     if (!token) return;
     try {
@@ -67,7 +70,7 @@ export default function AuthProvider({ children }) {
   //   getUnreadCount()
   // },[])
   return (
-    <AuthContext.Provider value={{ token, setToken, user, setUser ,userPosts,logOut , unreadCount,setUnreadCount,getUnreadCount}}>
+    <AuthContext.Provider value={{ token, setToken, user, setUser ,userPosts,logOut ,getUserPosts, unreadCount,setUnreadCount,getUnreadCount}}>
       {children}
     </AuthContext.Provider>
   );

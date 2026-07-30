@@ -20,18 +20,22 @@ export default function Post({
   sharedPostBody,
   sharedPostImage,
   sharedPostId,
+  userId
 }) {
   return (
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="size-10 rounded-full overflow-hidden border-2 border-purple-200">
+          <Link to={`/user-profile/${userId}`}>
+            <div className="size-10 rounded-full overflow-hidden border-2 border-purple-200">
             <img
               src={userImage}
               alt={userName}
               className="w-full h-full object-cover"
             />
           </div>
+          </Link>
+          
           <div>
             <h4 className="font-bold text-sm text-gray-900 capitalize">
               {userName}

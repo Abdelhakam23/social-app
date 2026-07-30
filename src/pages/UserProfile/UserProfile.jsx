@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import LeftSidebar from "../../components/LeftSidebar/LeftSidebar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -22,31 +22,43 @@ import { AuthContext } from "../../Context/Auth.context";
 import { useParams } from "react-router";
 import api from "../../api/api";
 
-export default function Profile() {
- 
+export default function UserProfile() {
   const [activeTab, setActiveTab] = useState("Posts");
 
-  const { user, userPosts } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
+  // const { userPosts, getUserPosts } = useContext(AuthContext);
+  const [userPosts, setUserPosts] = useState(null);
 
- const {id} =  useParams()
-  
-
-  async function getUserProfile(id) {
-
+  const { id } = useParams();
+  async function getUserPosts(id) {
+    if (!id) return;
     try {
-      const { data } = await api.get(`/users/${id}/profile`);
-      
+      const { data } = await api.get(`/users/${id}/posts`);
+      if (data.success) {
+        // console.log("user posts",data.data.posts);
+        setUserPosts(data.data.posts);
+      }
     } catch (error) {
-      
+      console.log(error);
     }
-    
   }
 
+  async function getUserProfile() {
+    try {
+      const { data } = await api.get(`/users/${id}/profile`);
+      if (data.success) {
+        setUser(data.data.user);
+        getUserPosts(id);
+      }
+    } catch (error) {}
+  }
 
+  useEffect(() => {
+    getUserProfile();
+  }, [id]);
 
   const tabs = [
     { label: "Posts", id: "Posts" },
-    { label: "Bookmarks", id: "Bookmarks" },
     { label: "Followers", id: "Followers" },
     { label: "Following", id: "Following" },
   ];
@@ -215,17 +227,6 @@ export default function Profile() {
                           Following
                         </span>
                       </button>
-                      <button
-                        onClick={() => setActiveTab("Bookmarks")}
-                        className="text-center sm:text-left cursor-pointer hover:opacity-80 transition-opacity"
-                      >
-                        <span className="font-bold text-gray-900 text-base">
-                          {user?.bookmarkscount || 0}
-                        </span>{" "}
-                        <span className="text-xs text-gray-500 font-medium">
-                          Bookmarks
-                        </span>
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -252,9 +253,7 @@ export default function Profile() {
               {activeTab === "Posts" && (
                 <ProfilePostsTab userPosts={userPosts} />
               )}
-              {activeTab === "Bookmarks" && (
-                <ProfileBookmarksTab bookmarks={user.bookmarks} />
-              )}
+
               {activeTab === "Followers" && (
                 <ProfileFollowersTab followers={user.followers} />
               )}

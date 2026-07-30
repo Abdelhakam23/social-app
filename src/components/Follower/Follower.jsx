@@ -5,7 +5,7 @@ import { AuthContext } from "../../Context/Auth.context";
 import axios from "axios";
 import api from "../../api/api";
 
-export default function Follower({ user }) {
+export default function Follower({ userId }) {
 
     const [follower, setFollower] = useState(null);
     const [isFollowing, setIsFollowing] = useState(false);
@@ -13,7 +13,7 @@ export default function Follower({ user }) {
     try {
     
 
-      const { data } = await api.get(`/users/${user}/profile`)
+      const { data } = await api.get(`/users/${userId}/profile`)
 
       if (data.success) {
           setFollower(data.data.user);

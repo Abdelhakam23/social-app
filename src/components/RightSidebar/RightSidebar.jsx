@@ -12,6 +12,7 @@ import { usePosts } from "../../hooks/PostsHook";
 import axios from "axios";
 import SuggestedFriendsSkelton from "../SuggestedFriendsSkelton/SuggestedFriendsSkelton";
 import api from "../../api/api";
+import { Link } from "react-router";
 
 export default function RightSidebar() {
   const { token } = useContext(AuthContext);
@@ -119,9 +120,9 @@ export default function RightSidebar() {
           {suggestedUsers ? (
             suggestedUsers.length > 0 ? (
               suggestedUsers.map((friend, index) => (
-                <div
-                  key={friend._id || index}
-                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                <Link  key={friend._id||index} to={`/user-profile/${friend._id}`} className="w-full">
+                 <div
+                  className="flex items-center  gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200 group "
                 >
                   <div className="size-10 rounded-full overflow-hidden border-2 border-purple-200 shrink-0">
                     <img
@@ -138,10 +139,12 @@ export default function RightSidebar() {
                       {friend.mutualFollowersCount} mutual friends
                     </p>
                   </div>
-                  <button className="shrink-0 px-3 py-1.5 text-xs font-semibold text-purple-600 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-200 cursor-pointer">
+                  <button className="shrink-0  px-3 py-1.5 text-xs font-semibold text-purple-600 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-200 cursor-pointer">
                     Follow
                   </button>
                 </div>
+                </Link>
+               
               ))
             ) : (
               <p className="text-center text-xs text-gray-500 py-3 font-medium">

@@ -11,6 +11,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import AuthProvider from "./Context/Auth.context";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
+import UserProfile from "./pages/UserProfile/UserProfile";
 
 function App() {
   const router = createBrowserRouter([
@@ -44,6 +45,15 @@ function App() {
         <ProtectedRoutes>
           {" "}
           <Profile />
+        </ProtectedRoutes>
+      ),
+    },
+     {
+      path: "/user-profile/:id",
+      element: (
+        <ProtectedRoutes>
+          {" "}
+          <UserProfile />
         </ProtectedRoutes>
       ),
     },
