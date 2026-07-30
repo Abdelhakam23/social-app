@@ -165,14 +165,20 @@ export default function Welcome() {
               className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-purple-600 border border-slate-300 hover:border-purple-300 rounded-xl transition-all duration-200 flex items-center gap-2"
             >
               <FontAwesomeIcon icon={faRightToBracket} className="text-xs" />
+              <span className="hidden md:block">
+
               Sign In
+              </span>
             </Link>
             <Link
               to="/signup"
               className="px-4 py-2 text-sm font-semibold text-white bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 rounded-xl shadow-md shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-200 flex items-center gap-2"
             >
               <FontAwesomeIcon icon={faUserPlus} className="text-xs" />
+              <span className="hidden md:block">
+
               Get Started
+              </span>
             </Link>
           </div>
         </div>
