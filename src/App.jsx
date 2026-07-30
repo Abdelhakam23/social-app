@@ -12,6 +12,7 @@ import AuthProvider from "./Context/Auth.context";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import AuthRoute from "./components/AuthRoute/AuthRoute";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import Welcome from "./pages/Welcome/Welcome";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,6 +22,14 @@ function App() {
         <ProtectedRoutes>
           <Home />
         </ProtectedRoutes>
+      ),
+    },
+    {
+      path: "/welcome",
+      element: (
+        <AuthRoute>
+          <Welcome />
+        </AuthRoute>
       ),
     },
     {

@@ -8,6 +8,6 @@ export default function ProtectedRoutes({ children }) {
     if (token) {
         return children
     } else {
-      return  <Navigate to={'/signin'}/>
+      return  <Navigate to={'/welcome'}/>
     }
 }
