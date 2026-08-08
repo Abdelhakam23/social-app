@@ -14,6 +14,10 @@ import Post from "../Post/Post";
 import axios from "axios";
 import { AuthContext } from "../../Context/Auth.context";
 import api from "../../api/api";
+import FormField from "../ui/formField/FormField";
+import { useFormik } from "formik";
+
+import * as yup from "yup";
 
 export default function PostCard({ postInfo, limit = 1 }) {
   const [comments, setComments] = useState(null);
@@ -22,13 +26,16 @@ export default function PostCard({ postInfo, limit = 1 }) {
   const postId = postInfo?.id || postInfo?._id;
 
   const [likesCount, setLikesCount] = useState(postInfo?.likesCount || 0);
+  const [commentsCount, setCommentsCount] = useState(
+    postInfo?.commentsCount || 0,
+  );
   const [isLiked, setIsLiked] = useState(false);
 
   let currentUser = user;
 
   useEffect(() => {
     setLikesCount(postInfo?.likesCount || 0);
-
+    setCommentsCount(postInfo?.commentsCount || 0);
     if (postInfo?.likes && currentUser?._id) {
       const hasLiked = postInfo.likes.some((like) => {
         if (typeof like === "object" && like !== null) {
@@ -42,16 +49,47 @@ export default function PostCard({ postInfo, limit = 1 }) {
     }
   }, [currentUser, postInfo]);
 
+  const validationComment = yup.object({
+    comment: yup
+      .string()
+      .required("Please Add Comment")
+      .min(3, "Comment must be at least 3 characters long")
+      .max(200, "Comment must be less than 200 characters"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      comment: "",
+    },
+    validationSchema: validationComment,
+    onSubmit: handleAddComment,
+  });
+
+  async function handleAddComment(values) {
+    try {
+      const formData = new FormData();
+      formData.append("content", values.comment);
+
+      const { data } = await api.post(`/posts/${postId}/comments`, formData);
+      if (data.success) {
+        formik.resetForm();
+        setCommentsCount((prev) => prev + 1);
+        getPostComments();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async function getPostComments() {
     if (!postId) return;
     try {
-  
-
-      const { data } = await api.get(`/posts/${postId}/comments?limit=${limit}`)
+      const { data } = await api.get(
+        `/posts/${postId}/comments?limit=${limit}`,
+      );
       if (data.success) {
         setComments(data.data.comments);
       }
-    } catch (error) { 
+    } catch (error) {
       console.log(error);
     }
   }
@@ -126,7 +164,7 @@ export default function PostCard({ postInfo, limit = 1 }) {
           </button>
           <button className="flex items-center gap-1.5 hover:text-purple-600 transition-colors cursor-pointer">
             <FontAwesomeIcon icon={faCommentRegular} />
-            <span>{postInfo?.commentsCount || 0} Comments</span>
+            <span>{commentsCount} Comments</span>
           </button>
         </div>
         <button className="flex items-center gap-1.5 hover:text-purple-600 transition-colors cursor-pointer">
@@ -135,11 +173,41 @@ export default function PostCard({ postInfo, limit = 1 }) {
         </button>
       </div>
 
+      {/* Comments Section */}
+      <form
+        className="add-comment flex flex-col"
+        onSubmit={formik.handleSubmit}
+      >
+        <FormField
+          elementType={"input"}
+          placeholder="Write a comment..."
+          inputType={"text"}
+          name={"comment"}
+          id={"comment"}
+          error={formik.errors.comment}
+          value={formik.values.comment}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          touched={formik.touched.comment}
+        />
+        <button
+          type="submit"
+          className="bg-purple-600 text-white mt-2 px-4 py-1 rounded-md hover:bg-purple-700 transition-colors self-end"
+        >
+          Post
+        </button>
+      </form>
+
+      {/* Comments */}
       <div className="comments mt-5 space-y-4">
         {comments ? (
           comments.length > 0 ? (
             comments.map((comment) => (
-              <CommentCard key={comment._id} comment={comment} postId={postId} />
+              <CommentCard
+                key={comment._id}
+                comment={comment}
+                postId={postId}
+              />
             ))
           ) : (
             <p className="text-center text-xs font-medium text-gray-500">
