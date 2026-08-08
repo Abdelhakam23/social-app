@@ -1,16 +1,138 @@
-# React + Vite
+# Social App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern social media web application built with React, Vite, and Tailwind CSS. This project delivers a polished frontend experience for authentication, posting, following, profile browsing, notifications, and social interaction in a clean and responsive interface.
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Overview
 
-## React Compiler
+Social App is a frontend-only social platform experience designed to feel modern, intuitive, and visually appealing. It includes core social networking flows such as sign-in, sign-up, feed browsing, post creation, profile management, and notification interactions.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- Secure authentication flow with sign in and sign up pages
+- Protected routes for authenticated users only
+- Social feed with post creation and browsing
+- Detailed post view for individual content
+- Rich user profile experience with stats and tabs
+- Followers and following sections
+- Bookmarks and notification support
+- Responsive layout with a modern sidebar-based UI
+- Toast notifications and smooth navigation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- React 19
+- Vite 8
+- React Router
+- Tailwind CSS
+- Axios
+- Formik + Yup
+- Font Awesome Icons
+- React Toastify
+
+## 📁 Project Structure
+
+```bash
+src/
+├── api/              # API configuration and request setup
+├── components/       # Reusable UI components
+├── context/          # Authentication and global app context
+├── hooks/            # Custom hooks for data fetching
+├── pages/            # Route-based pages
+└── assets/           # Static assets and images
+```
+
+## 🖼️ Screenshots
+
+You can add screenshots here later to showcase the UI:
+
+- Home Feed
+- Profile Page
+- Post Details
+- Authentication Pages
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- Node.js 18 or later
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd social-app
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Create your environment file
+
+```bash
+cp .env.example .env
+```
+
+4. Update the API base URL in your `.env` file
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+5. Start the development server
+
+```bash
+npm run dev
+```
+
+Open http://localhost:5173 to view the app.
+
+## 📜 Available Scripts
+
+```bash
+npm run dev      # Start the Vite development server
+npm run build    # Build the project for production
+npm run preview  # Preview the production build locally
+npm run lint     # Run ESLint checks
+```
+
+## 🔐 Environment Variables
+
+| Variable            | Description                   |
+| ------------------- | ----------------------------- |
+| `VITE_API_BASE_URL` | Base URL for your backend API |
+
+## 🧩 Backend Requirement
+
+This frontend expects a backend API that supports:
+
+- Authentication
+- User profiles
+- Posts
+- Followers and following
+- Bookmarks
+- Notifications
+
+## 🤝 Contributing
+
+Contributions are welcome. If you would like to improve the project:
+
+1. Fork the repository
+2. Create a new feature branch
+3. Commit your changes
+4. Open a pull request
+
+## 📬 Contact
+
+For questions, suggestions, or collaboration, feel free to open an issue in the repository.
