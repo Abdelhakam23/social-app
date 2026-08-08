@@ -18,7 +18,6 @@ import { useSignUp } from "../../hooks/signUpHook";
 
 export default function SignUpForm() {
   const {formik} =  useSignUp()
-  // console.log(formik);
 
   return (
     <div className=" flex items-center justify-center lg:justify-start">

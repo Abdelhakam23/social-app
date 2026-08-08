@@ -37,7 +37,7 @@ export default function Profile() {
       const { data } = await api.get(`/users/${id}/profile`);
       
     } catch (error) {
-      
+      toast.error("Unable to load profile right now.");
     }
     
   }

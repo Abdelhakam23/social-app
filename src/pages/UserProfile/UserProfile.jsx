@@ -35,11 +35,10 @@ export default function UserProfile() {
     try {
       const { data } = await api.get(`/users/${id}/posts`);
       if (data.success) {
-        // console.log("user posts",data.data.posts);
         setUserPosts(data.data.posts);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to load user profile right now.");
     }
   }
 
@@ -50,7 +49,9 @@ export default function UserProfile() {
         setUser(data.data.user);
         getUserPosts(id);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Unable to load user posts right now.");
+    }
   }
 
   useEffect(() => {

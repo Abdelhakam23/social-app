@@ -142,14 +142,6 @@ export default function Notifications() {
     { id: "share_post", label: "Shares" },
   ];
 
-  // async function getUnreadCount() {
-  //   try {
-  //     const { data } = await api.get("/notifications/unread-count");
-  //     setUnreadCount(data.data.unreadCount);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   async function getNotifications() {
     setIsLoading(true);
@@ -160,7 +152,7 @@ export default function Notifications() {
         getUnreadCount();
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to load notifications right now.");
       setNotifications([]);
     } finally {
       setIsLoading(false);
@@ -185,8 +177,7 @@ export default function Notifications() {
     try {
       await api.patch("/notifications/read-all");
     } catch (error) {
-      console.log("Error marking notifications as read:", error);
-      // في حالة حدوث خطأ، يمكنك إعادة جلب البيانات الصحيحة
+      toast.error("Unable to mark notifications as read right now.");
       getNotifications();
     }
   }

@@ -19,7 +19,9 @@ export default function Follower({ userId }) {
           setFollower(data.data.user);
           setIsFollowing(data.data.isFollowing)
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Unable to load follower profile right now.");
+    }
   }
 
   useEffect(() => {

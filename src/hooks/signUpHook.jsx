@@ -53,12 +53,11 @@ export function useSignUp() {
       }, 5000);
     }
     } catch (error) {
- 
-      if (error.response.data.errors === 'user already exists.') {
+      if (error.response?.data?.errors === 'user already exists.') {
         formik.setFieldError('email',"Email is already Exist")
+      } else {
+        toast.error("Unable to create account right now.");
       }
-      
-      
     }
     
    

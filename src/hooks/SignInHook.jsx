@@ -31,7 +31,6 @@ export function useSignIn() {
     try {
      
       const { data } = await api.post('users/signin',values);
-      console.log(data);
       
 
       if (data.success) {
@@ -47,10 +46,10 @@ export function useSignIn() {
         }, 3000);
       }
     } catch (error) {
-      console.log(error.response);
-
-      if (error.response.data.errors === "incorrect email or password") {
+      if (error.response?.data?.errors === "incorrect email or password") {
         toast.error("incorrect email or password");
+      } else {
+        toast.error("Unable to sign in right now.");
       }
     }
   }

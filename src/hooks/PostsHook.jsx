@@ -11,7 +11,6 @@ export function usePosts() {
      
           const { data } = await api.get(`/posts?limit=50&page=1`);
     
-          //   console.log(data.data.posts);
           setPosts(data.data.posts);
         } catch (error) {}
       }

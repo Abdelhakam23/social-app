@@ -21,7 +21,9 @@ export default function PostDetails() {
       if (data.success) {
         setPostDetails(data.data.post);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Unable to load post details right now.");
+    }
   }
 
   useEffect(() => {

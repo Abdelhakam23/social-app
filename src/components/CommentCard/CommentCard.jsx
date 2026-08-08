@@ -26,7 +26,7 @@ export default function CommentCard({ comment, postId }) {
         setReplies(Array.isArray(fetchedReplies) ? fetchedReplies : []);
       }
     } catch (error) {
-      console.log("Error fetching replies:", error);
+      toast.error("Unable to load replies right now.");
     }
   }
 
@@ -51,7 +51,7 @@ export default function CommentCard({ comment, postId }) {
         formik.resetForm();
       }
     } catch (error) {
-      console.log("Error adding reply:", error);
+      toast.error("Unable to add reply right now.");
     }
   }
 

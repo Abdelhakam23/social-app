@@ -77,7 +77,7 @@ export default function PostCard({ postInfo, limit = 1 }) {
         getPostComments();
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to add comment right now.");
     }
   }
   async function getPostComments() {
@@ -90,7 +90,7 @@ export default function PostCard({ postInfo, limit = 1 }) {
         setComments(data.data.comments);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to load comments right now.");
     }
   }
 
@@ -125,7 +125,7 @@ export default function PostCard({ postInfo, limit = 1 }) {
         }
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to update like status right now.");
       setIsLiked(previousLiked);
       setLikesCount(previousCount);
     }

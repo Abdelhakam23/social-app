@@ -11,11 +11,11 @@ export default function Following({ id }) {
       const { data } = await api.get(`/users/${id}/profile`);
 
       if (data.success) {
-        console.log(data);
-
         setUser(data.data.user);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Unable to load following profile right now.");
+    }
   }
 
   useEffect(() => {

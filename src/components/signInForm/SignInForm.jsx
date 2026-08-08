@@ -17,7 +17,6 @@ import { useSignIn } from "../../hooks/SignInHook";
 
 export default function SignInForm() {
   const {token,formik} = useSignIn()
-  // console.log(formik);
 
   return (
     <div className=" flex items-center justify-center lg:justify-start">

@@ -27,7 +27,7 @@ export default function RightSidebar() {
         setSuggestedUsers(data.data.suggestions);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to load suggestions right now.");
       setSuggestedUsers([]);
     }
   }

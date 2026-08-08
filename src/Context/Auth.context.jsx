@@ -26,7 +26,6 @@ export default function AuthProvider({ children }) {
       const { data } = await api.get("/notifications/unread-count");
       setUnreadCount(data.data.unreadCount);
     } catch (error) {
-      console.log(error);
     }
   }
 
@@ -44,7 +43,6 @@ export default function AuthProvider({ children }) {
         getUserPosts(data.data.user._id);
       }
     } catch (error) {
-      console.log(error);
     }
   }
    async function getUserPosts(id) {
@@ -54,11 +52,10 @@ export default function AuthProvider({ children }) {
     
           const { data } = await api.get(`/users/${id}/posts`);
           if (data.success) {
-            // console.log("user posts",data.data.posts);
             setUserPosts(data.data.posts);
           }
         } catch (error) {
-          console.log(error);
+          toast.error("Unable to load your posts right now.");
         }
      }
   

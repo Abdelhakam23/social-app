@@ -32,7 +32,7 @@ export default function PostUpload({ getAllPosts }) {
         setPreviewImage(null);
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to create post right now.");
     }
   }
 
