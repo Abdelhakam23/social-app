@@ -147,7 +147,7 @@ export default function SignUpForm() {
             )}
           </button>
 
-          <span className="relative  w-full text-center text-sm text-gray-400 before:h-px before:w-35 before:bg-gray-500 before:absolute before:top-1/2 before:left-0 before:-translate-y-1/2 after:h-px after:w-35 after:bg-gray-500 after:absolute after:top-1/2 after:right-0 after:-translate-y-1/2">
+          <span className="relative  w-full text-center text-sm text-gray-400 before:h-px md:before:w-35 before:w-15  before:bg-gray-500 before:absolute before:top-1/2 before:left-0 before:-translate-y-1/2 after:h-px md:after:w-35 after:w-15 after:bg-gray-500 after:absolute after:top-1/2 after:right-0 after:-translate-y-1/2">
             or sign up with
           </span>
 
